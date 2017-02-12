@@ -1,0 +1,13 @@
+# Compiled files #
+##################
+*.pyc
+
+# Database #
+############
+
+*.db
+
+# Configurations #
+##################
+*.json
+
