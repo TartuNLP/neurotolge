@@ -7,13 +7,12 @@ import requests
 import socket
 import sys
 
+
 def ut_translation(queue, text, translate_from='et', translate_to='en'):
     try:
-        # 1. Do POST request
         __HOST__ = "booster2.hpc.ut.ee"
         __PORT__ = 50007
-	__BUFFER_SIZE__ = 1024
-	
+        __BUFFER_SIZE__ = 1024
 
         delimiter = "|||"
         text_for_translation = u"%s%s%s%s%s" % (text.encode("utf-8"),
@@ -37,24 +36,6 @@ def ut_translation(queue, text, translate_from='et', translate_to='en'):
         print("ut exception", e.message)
         translation = ""
 
-
-    """
-    try:
-        proxy = xmlrpclib.ServerProxy("http://localhost:8000/") # TODO: change url to the proper one
-        translator = xmlrpclib.MultiCall(proxy)
-        translation = translator.translate(text, translate_from, translate_to)
-
-    except Exception as e:
-        translation = ""
-    """
-
     queue.put({'translation_ut': translation})
+
     return None
-
-
-def main():
-    return None
-
-
-if __name__ == "__main__":
-    main()

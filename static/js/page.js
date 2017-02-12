@@ -1,4 +1,5 @@
 function CreateImagePath(company) {
+  console.log("CreateImagePath");
   var image_path = "/static/image/", extension = ".png";
   if (company === "google") {
     return image_path + company + extension;
@@ -15,20 +16,25 @@ function CreateImagePath(company) {
 }
 
 function CleanTranslationTitle() {
+  console.log("CleanTranslationTitle");
   $("#translation-title").addClass("invisible");
 }
 
 function CleanTranslationDivs() {
+  console.log("CleanTranslationDivs");
   $("#translation-choice").empty();
   $("#translation-choice").remove(".space1percent");
 }
 
 function CleanTranslationAll() {
+  console.log("CleanTranslationAll");
   CleanTranslationTitle();
   CleanTranslationDivs();
 }
 
 function CreateTranslationRow(image_path, translation_text) {
+  console.log("CreateTranslationRow");
+
   var translation_div = document.createElement('div'),
       image_div = $(document.createElement('div')).addClass("wrapper col-lg-2 col-md-2 col-sm-2 col-xs-2 pointer"),
       text_div = $(document.createElement('div')).addClass("col-lg-10 col-md-10 col-sm-10 col-xs-10 translation-text pointer"),
@@ -52,12 +58,14 @@ function CreateTranslationRow(image_path, translation_text) {
 }
 
 function Swap(content, index1, index2) {
+  console.log("Swap");
   var temp = content[index1];
   content[index1] = content[index2];
   content[index2] = temp;
 }
 
 function RandomShuffle(content, num_swaps = 10) {
+  console.log("RandomShuffle");
   for(var num_swap = 0; num_swap < num_swaps; ++num_swap) {
       var index1 = Math.floor(Math.random() * content.length),
           index2 = Math.floor(Math.random() * content.length);
@@ -67,23 +75,26 @@ function RandomShuffle(content, num_swaps = 10) {
 }
 
 function CreateTranslationTitle(translation_title) {
+  console.log("CreateTranslationTitle");
   $("#translation-title").removeClass("invisible");
 }
 
 function FilterEmptyTranslations(content) {
-    var cleaned_content = [];
-    for(var sub_content in content) {
-        if(content[sub_content]['translation'] != "") {
-            cleaned_content.push(content[sub_content]);
-        }
-        console.log("i", sub_content);
+  console.log("FilterEmptyTranslations");
+  var cleaned_content = [];
+  for(var sub_content in content) {
+    if(content[sub_content]['translation'] != "") {
+      cleaned_content.push(content[sub_content]);
     }
+    console.log("i", sub_content);
+  }
 
-    return cleaned_content;
+  return cleaned_content;
 }
 
 
 function ShowTranslation(content, translation_title = "Palun vali kõige parim tõlge:") {
+  console.log("ShowTranslation");
   CleanTranslationAll();
   CleanFooter();
   CreateTranslationTitle(translation_title);
@@ -105,7 +116,7 @@ function ShowTranslation(content, translation_title = "Palun vali kõige parim t
 };
 
 function ShowTranslatorsBasedOnTranslation(content) {
-
+  console.log("ShowTranslatorsBasedOnTranslation");
   CleanTranslationAll();
   CleanFooter();
 
@@ -117,10 +128,11 @@ function ShowTranslatorsBasedOnTranslation(content) {
   CreateFooter();
   console.log("ShowTranslatorsBasedOnTranslation");
 
-  RemoveListeners();
+  //RemoveListeners();
 };
 
 function RemoveListeners() {
+  console.log("RemoveListeners");
   var elements = document.getElementsByClassName("pointer");
   for (var i = 0; i < elements.length; i++) {
     elements[i].removeEventListener('click',
@@ -129,11 +141,12 @@ function RemoveListeners() {
                                     ShowTranslatorsBasedOnTranslation(content);
                                  },
                                  false);
-    }
-    console.log("Listeners removed");
+  }
+  console.log("Listeners removed");
 };
 
 function AddListeners() {
+  console.log("AddListeners");
   var elements = document.getElementsByClassName("pointer");
   for (var i = 0; i < elements.length; i++) {
     elements[i].addEventListener('click',
@@ -156,46 +169,50 @@ function AddListeners() {
 
 
 function FindChosenTranslatorPosition(source) {
-    var clicked_row = $(source).parent(),
-        rows = $('#translation-choice div.row'),
-        position = -1;
+  console.log("FindChosenTranslatorsPosition");
+  var clicked_row = $(source).parent(),
+    rows = $('#translation-choice div.row'),
+    position = -1;
 
-    $.each(rows, function(index, row){
-        if (clicked_row.is(row)) {
-            position = index;
-        }
-    });
-    return position;
+  $.each(rows, function(index, row){
+    if (clicked_row.is(row)) {
+      position = index;
+    }
+  });
+  return position;
 }
 
 function SaveBestTranslator(content, position) {
-    var param = {}
-    for (var index in content) {
-        param[content[index].translator] = content[index].translation
+  console.log("SaveBestTranslator");
+  var param = {}
+  for (var index in content) {
+    param[content[index].translator] = content[index].translation
+  }
+
+  var best_translator = content[position].translator;
+  param['best_translator'] = best_translator
+
+  console.log("param", param);
+  $.ajax({
+    url: '/',
+    data: JSON.stringify(param, null, '\t'),
+    type: 'POST',
+    contentType: 'application/json;charset=UTF-8',
+    success: function(response) {
+      console.log("response", response);
+    },
+    error: function(error) {
+      console.log("error", error);
     }
-
-    var best_translator = content[position].translator;
-    param['best_translator'] = best_translator
-
-    console.log("param", param);
-    $.ajax({
-        url: '/',
-        data: JSON.stringify(param, null, '\t'),
-        type: 'POST',
-        contentType: 'application/json;charset=UTF-8',
-        success: function(response) {
-            console.log("response", response);
-        },
-        error: function(error) {
-            console.log("error", error);
-        }
-    });
+  });
 }
 
 function CreateFooter(about_url = "project_information.html",
                       contacts_url = "contacts.html",
                       about_text = "Projekti üldinfo",
                       contacts_text = "Kontakt") {
+  console.log("CreateFooter");
+
   var about_div = document.createElement('div'),
       contacts_div = document.createElement('div'),
       about_link = document.createElement('a'),
@@ -216,10 +233,12 @@ function CreateFooter(about_url = "project_information.html",
 }
 
 function CleanFooter() {
+  console.log("CleanFooter");
   $('.footer').empty();
 }
 
 function ShowMenu() {
+  console.log("ShowMenu");
   if($('.main-block').hasClass("hidden-xs")) {
     $('.main-block').removeClass("hidden-xs");
     $('.menu-block').addClass("hidden-xs");
@@ -230,8 +249,11 @@ function ShowMenu() {
   }
 }
 
+// TODO Refactor this code
 $(function() {
     $('.translate-btn').click(function() {
+        console.log("Click translate button");
+
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
         var source_text = $('textarea').val();
@@ -253,8 +275,7 @@ $(function() {
                 console.log("response", response);
                 content = ShowTranslation(content=translations);
 
-                // Add listeners for future events
-                AddListeners();
+                AddListeners.call(this);
             },
             error: function(error) {
                 console.log("error", error);
