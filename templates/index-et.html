@@ -1,3 +1,5 @@
+<!--Fix links-->
+
 <!DOCTYPE html>
 <html lang="et">
 
@@ -26,13 +28,13 @@
       <!--language_buttons-->
       <div class="row">
           <div id="languages" class="header hidden-xs">
-            <a href="#">
-              <div class = "btn-sm language-btn language-center-btn">
+            <a href="/et">
+              <div class = "btn-sm language-btn language-left-btn">
                 EST
               </div>
             </a>
-            <a href="#" class="inactive hidden">
-              <div class = "btn-sm language-btn language-right-btn inactive">
+            <a href="/en">
+              <div class = "btn-sm language-btn language-right-btn">
                 ENG
               </div>
             </a>
@@ -46,7 +48,7 @@
                     col-sm-8 col-sm-offset-2
                     col-xs-9 col-xs-offset-1
                     text-center">
-          <a href="/">
+          <a href="/et">
             <span class="university-title">
               Tartu Ülikooli masintõlge
             </span>
@@ -72,13 +74,15 @@
       <div class="row hidden-lg hidden-md hidden-sm hidden-xs menu-block">
         <div class="text-center-xs">
           <div>
-            <a href="about.html"><span class="text">Projekti üldinfo</span></a>
+            <a href="/about/et"><span class="text">Projekti üldinfo</span></a>
           </div>
+            <!-- TODO Remove, old content
           <div>
-            <a href="about.html"><span class="text">Kontakt</span></a>
+            <a href="/about"><span class="text">Kontakt</span></a>
           </div>
+          -->
           <div>
-            <a href="#"><span class="text">In English</span></a>
+            <a href="/en"><span class="text">In English</span></a>
           </div>
         </div>
       </div>
@@ -143,7 +147,7 @@
                     col-sm-2 col-sm-offset-5
                     col-xs-4 col-xs-offset-4">
           <div class="row ">
-            <a href="#">
+            <a href="">
               <div class="col-lg-6 col-lg-offset-3
                           col-md-6 col-md-offset-3
                           col-sm-6 col-sm-offset-3
@@ -191,13 +195,14 @@
     <div class="row">
       <footer class="site-footer">
           <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-            <a href="/about">
+            <a href="/about/et">
               Projekti üldinfo
             </a>
           </div>
 
+          <!-- TODO Remove, old content -->
           <div class="hidden text-left">
-            <a href="/about" class="inactive">
+            <a href="/about/et" class="inactive">
               Kontakt
             </a>
         </div>
@@ -215,11 +220,11 @@
   {% block languages %}
   <script>
     var language_pairs = {{ available_language_pairs|tojson }};
-    var language_culture_names_to_estonian = {{ language_culture_names_to_estonian|tojson }};
+    var language_culture_names = {{ language_culture_names_to_estonian|tojson }};
 
 
     $(function() {
-        GenerateTranslateFromList(language_pairs, language_culture_names_to_estonian);
+        GenerateTranslateFromList(language_pairs, language_culture_names);
     });
   </script>
   {% endblock %}

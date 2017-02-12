@@ -3,27 +3,35 @@
 
 from flask import Flask, render_template, request
 import json
-import sys
 
 app = Flask(__name__)
 
-"""
-@app.route("/")
-def hello():
-    return "Hello world!"
-"""
-
 # Translators
 from help.parallel_translation_requests import get_translations
-
-# SQLite3 DB
-#from db import insert
-
-from language.available_languages import get_available_language_culture_name_pairs, language_culture_names_to_estonian
+from language.available_languages import get_available_language_culture_name_pairs, \
+                                         language_culture_names_to_estonian, \
+                                         language_culture_names_to_english
 
 app.jinja_env.globals['available_language_pairs'] = get_available_language_culture_name_pairs()
 app.jinja_env.globals['language_culture_names_to_estonian'] = \
     language_culture_names_to_estonian(get_available_language_culture_name_pairs())
+
+app.jinja_env.globals['language_culture_names_to_english'] = \
+    language_culture_names_to_english(get_available_language_culture_name_pairs())
+
+
+@app.route('/en', methods=['GET', 'POST'])
+def main_page_english():
+    if request.method == 'POST':
+        return main_page()
+    return render_template('index-en.html')
+
+
+@app.route('/et', methods=['GET', 'POST'])
+def main_page_estonian():
+    if request.method == 'POST':
+        return main_page()
+    return render_template('index-et.html')
 
 
 # TODO
@@ -41,9 +49,6 @@ def main_page():
         translation_google = translations['translation_google']
         translation_microsoft = translations['translation_microsoft']
         translation_ut = translations['translation_ut']
-
-
-
 
         # Insert Query in DB
         # insert(source_text, translation_microsoft, translation_google, translation_ut)
@@ -63,17 +68,30 @@ def main_page():
         return "OK", 201
 
     print(request)
-    return render_template('index.html')
-
-@app.route('/about')
-def about_page():
-    return render_template('about.html')
+    return render_template('index-et.html')
 
 
-@app.route('/contacts')
-def contacts_page():
+@app.route('/about/et')
+def about_page_estonian():
+    return render_template('about-et.html')
+
+
+@app.route('/about/en')
+def about_page_english():
+    return render_template('about-en.html')
+
+# TODO Remove if not needed
+"""
+@app.route('/contacts/en')
+def contacts_page_english():
+    return render_template('contacts-en.html')
+
+
+@app.route('/contacts/et')
+def contacts_page_estonian():
     print >> sys.stderr, request.method
-    return render_template('contacts.html')
+    return render_template('contacts-et.html')
+"""
 
 
 # TODO: remove debug mode in production
