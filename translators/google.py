@@ -3,9 +3,9 @@
 
 import time
 import requests
+import json
 
-
-def save_google_translation(queue, source_text, client_id, client_secret, translate_from='et', translate_to='en'):
+def save_google_translation(queue, source_text, translate_from='et', translate_to='en'):
     translation = ''
 
     try:
@@ -27,6 +27,6 @@ def save_google_translation(queue, source_text, client_id, client_secret, transl
 def google_translation(text, translate_from='et', translate_to='en'):
 
     response = requests.get(url)
-    translation = response['data']['translations'][0]['translatedText']
-    print("Test", translation)
+    json_response = json.loads(response.text)
+    translation = json_response['data']['translations'][0]['translatedText']
     return translation
