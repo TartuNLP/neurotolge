@@ -190,7 +190,7 @@ function SaveBestTranslator(content, position) {
   }
 
   var best_translator = content[position].translator;
-  param['best_translator'] = best_translator
+  param['best_translator'] = best_translator;
 
   console.log("param", param);
   $.ajax({
@@ -239,7 +239,7 @@ function CleanFooter() {
 
 function ShowMenu() {
   console.log("ShowMenu");
-  if($('.main-block').hasClass("hidden-xs")) {
+  if ($('.main-block').hasClass("hidden-xs")) {
     $('.main-block').removeClass("hidden-xs");
     $('.menu-block').addClass("hidden-xs");
   }
@@ -254,6 +254,7 @@ $(function() {
     $('.translate-btn').click(function() {
         console.log("Click translate button");
 
+        $('.translation-loader').removeClass('hidden');
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
         var source_text = $('textarea').val();
@@ -274,6 +275,7 @@ $(function() {
                 translations = JSON.parse(response)["translations"];
                 console.log("response", response);
                 content = ShowTranslation(content=translations);
+                $('.translation-loader').addClass('hidden');
 
                 AddListeners.call(this);
             },
