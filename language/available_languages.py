@@ -1,5 +1,6 @@
 #!/usr/bin/python
-#  -*- coding: utf-8 -*-
+#  -*- encoding: utf-8 -*-
+
 
 languages_in_estonian = {'et': 'Eesti', 'en': 'Inglise'}
 languages_in_english = {'et': 'Estonian', 'en': 'English'}

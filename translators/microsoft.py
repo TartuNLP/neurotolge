@@ -1,5 +1,6 @@
 #!/usr/bin/python
-#  -*- coding: utf-8 -*-
+#  -*- encoding: utf-8 -*-
+
 
 from microsofttranslator import Translator
 import time

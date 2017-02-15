@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#  -*- coding: utf-8 -*-
+#  -*- encoding: utf-8 -*-
 
 import Queue
 import threading
@@ -11,6 +11,9 @@ from translators.ut import ut_translation
 
 def get_translations(source_text, language_translate_from, language_translate_to, timeout=10, num_translators=3):
     queue = Queue.Queue()
+    print("get_translations : language_translate_from", language_translate_from)
+    print("get_translations : language_translate_to", language_translate_to)
+
     thread_microsoft = threading.Thread(target=save_microsoft_translation, args=(queue,
                                                                                  source_text,
                                                                                  'MarkTranslationAPI1',

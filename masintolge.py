@@ -1,5 +1,6 @@
 #!/usr/bin/python
-#  -*- coding: utf-8 -*-
+#  -*- encoding: utf-8 -*-
+
 
 from flask import Flask, render_template, request
 import json
@@ -29,6 +30,9 @@ def main_page():
 
         # TODO refactor
         # Hidden credentials:
+
+        print("language translate from:", language_translate_from)
+        print("language translate to:", language_translate_to)
 
         translations = get_translations(source_text, language_translate_from, language_translate_to)
         # translations = {"translation_ut": "Hello", "translation_google": "", "translation_microsoft": ""}
