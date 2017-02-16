@@ -24,9 +24,7 @@ def ut_translation(queue, text, translate_from='et', translate_to='en'):
         s = socket.socket()
         s.connect((__HOST__, __PORT__))
 
-        print >> sys.stderr, "text-for-translation", text_for_translation
-
-        s.send(text_for_translation)
+        s.send(text_for_translation.encode('utf-8'))
 
         translation = s.recv(__BUFFER_SIZE__).replace("|||", "")
         s.close()
