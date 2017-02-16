@@ -1,5 +1,6 @@
 #!/usr/bin/python
-#  -*- coding: utf-8 -*-
+#  -*- encoding: utf-8 -*-
+
 
 from microsofttranslator import Translator
 import time
@@ -15,7 +16,8 @@ def save_microsoft_translation(queue, source_text, client_id, client_secret, tra
                                             client_id=client_id,
                                             client_secret=client_secret)
         end = time.time()
-        print("Microsoft", end - begin)
+        print("microsoft", translation)
+        print("microsoft/time : ", end - begin)
 
     except Exception as e:
         print("Microsoft failed!", e)

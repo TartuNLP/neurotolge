@@ -1,9 +1,11 @@
 #!/usr/bin/python
-#  -*- coding: utf-8 -*-
+#  -*- encoding: utf-8 -*-
+
 
 import time
 import requests
 import json
+
 
 def save_google_translation(queue, source_text, translate_from='et', translate_to='en'):
     translation = ''
@@ -14,7 +16,8 @@ def save_google_translation(queue, source_text, translate_from='et', translate_t
                                          translate_from=translate_from,
                                          translate_to=translate_to)
         end = time.time()
-        print("Google", end - begin)
+        print("google", translation)
+        print("google/time : ", end - begin)
 
     except Exception as e:
 
