@@ -7,7 +7,10 @@ import socket
 import sys
 
 
-def ut_translation(queue, text, translate_from='et', translate_to='en'):
+def ut_translation(queue, text, translate_from='et', translate_to='en', connection_timeout=3):
+    translation = ''
+
+    translation_time_begin = time.time()
     try:
         __HOST__ = "booster2.hpc.ut.ee"
         __PORT__ = 50007
@@ -20,21 +23,18 @@ def ut_translation(queue, text, translate_from='et', translate_to='en'):
                                                                          lang_from=translate_from,
                                                                          lang_to=translate_to)
 
-        begin = time.time()
-        s = socket.socket()
-        s.connect((__HOST__, __PORT__))
-
+        s = socket.create_connection((__HOST__, __PORT__), timeout=connection_timeout)
         s.send(text_for_translation.encode('utf-8'))
 
         translation = s.recv(__BUFFER_SIZE__).replace("|||", "")
         s.close()
-        end = time.time()
 
-        print("ut", translation, text_for_translation)
-        print("ut/time : ", end - begin)
+        print("ut", translation)
     except Exception as e:
-        print("ut exception", e.message)
-        translation = ""
+        print("ut failed!", e)
+
+    translation_time_end = time.time()
+    print("ut/time : ", translation_time_end - translation_time_begin)
 
     queue.put({'translation_ut': translation})
 

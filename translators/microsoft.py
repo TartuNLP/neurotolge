@@ -8,19 +8,21 @@ import time
 
 def save_microsoft_translation(queue, source_text, client_id, client_secret, translate_from='et', translate_to='en'):
     translation = ''
+
+    translation_time_begin = time.time()
     try:
-        begin = time.time()
         translation = microsoft_translation(source_text,
                                             translate_from=translate_from,
                                             translate_to=translate_to,
                                             client_id=client_id,
                                             client_secret=client_secret)
-        end = time.time()
         print("microsoft", translation)
-        print("microsoft/time : ", end - begin)
 
     except Exception as e:
-        print("Microsoft failed!", e)
+        print("microsoft failed!", e)
+
+    translation_time_end = time.time()
+    print("microsoft/time : ", translation_time_end - translation_time_begin)
 
     queue.put({'translation_microsoft': translation})
     return None

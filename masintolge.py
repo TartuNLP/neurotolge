@@ -2,11 +2,12 @@
 #  -*- encoding: utf-8 -*-
 
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 import json
+import time
 
 app = Flask(__name__)
-
+app.secret_key = 'masintolge_tartu'
 
 # Translators
 from parallel_translation.parallel_translation_requests import get_translations
@@ -33,10 +34,13 @@ def main_page():
         print("language translate from :", language_translate_from)
         print("language translate to :", language_translate_to)
 
+        start_translation_time = time.time()
         translations = get_translations(source_text, language_translate_from, language_translate_to)
         translation_google = translations['translation_google']
         translation_microsoft = translations['translation_microsoft']
         translation_ut = translations['translation_ut']
+        end_translation_time = time.time()
+        print("Total translation time : ", end_translation_time - start_translation_time)
 
         return json.dumps({
             'status': 'OK',
@@ -49,7 +53,7 @@ def main_page():
 
     elif request.method == 'POST':
         print(request.json)
-
+        flash("Thank you! Translation submitted!")
         return "OK", 201
 
     return render_template('index-et.html')
