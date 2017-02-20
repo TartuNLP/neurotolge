@@ -7,8 +7,9 @@ import json
 
 app = Flask(__name__)
 
+
 # Translators
-from help.parallel_translation_requests import get_translations
+from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_pairs, \
                                          language_culture_names_to_estonian, \
                                          language_culture_names_to_english
@@ -28,20 +29,14 @@ def main_page():
         language_translate_to = request.json['translate_to']
         source_text = request.json['source_text']
 
-        # TODO refactor
-        # Hidden credentials:
-
-        print("language translate from:", language_translate_from)
-        print("language translate to:", language_translate_to)
+        print("text for translation : ", source_text)
+        print("language translate from :", language_translate_from)
+        print("language translate to :", language_translate_to)
 
         translations = get_translations(source_text, language_translate_from, language_translate_to)
-        # translations = {"translation_ut": "Hello", "translation_google": "", "translation_microsoft": ""}
         translation_google = translations['translation_google']
         translation_microsoft = translations['translation_microsoft']
         translation_ut = translations['translation_ut']
-
-        # Insert Query in DB
-        # insert(source_text, translation_microsoft, translation_google, translation_ut)
 
         return json.dumps({
             'status': 'OK',
