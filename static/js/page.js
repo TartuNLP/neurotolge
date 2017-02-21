@@ -1,3 +1,6 @@
+/* TODO! Make JS refactoring to make code more modular */
+
+/* TODO Refactor this function, after adding unit-tests */
 function CreateImagePath(company) {
   console.log("CreateImagePath");
   var image_path = "/static/image/", extension = ".png";
@@ -113,7 +116,7 @@ function ShowTranslation(content, translation_title = "Palun vali kõige parim t
   CreateFooter();
   console.log("ShowTranslation");
   return content;
-};
+}
 
 function ShowTranslatorsBasedOnTranslation(content) {
   console.log("ShowTranslatorsBasedOnTranslation");
@@ -129,7 +132,7 @@ function ShowTranslatorsBasedOnTranslation(content) {
   console.log("ShowTranslatorsBasedOnTranslation");
 
   //RemoveListeners();
-};
+}
 
 function RemoveListeners() {
   console.log("RemoveListeners");
@@ -184,7 +187,7 @@ function FindChosenTranslatorPosition(source) {
 
 function SaveBestTranslator(content, position) {
   console.log("SaveBestTranslator");
-  var param = {}
+  var param = {};
   for (var index in content) {
     param[content[index].translator] = content[index].translation
   }

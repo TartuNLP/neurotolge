@@ -2,14 +2,16 @@
 #  -*- encoding: utf-8 -*-
 
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request
 import json
 import time
 
 app = Flask(__name__)
 app.secret_key = 'masintolge_tartu'
+app_default_language = 'et'
 
 # Translators
+# TODO Review this code for possible future refactoring
 from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_pairs, \
                                          language_culture_names_to_estonian, \
@@ -24,7 +26,7 @@ app.jinja_env.globals['language_culture_names_to_english'] = \
 
 
 @app.route('/', methods=['GET', 'POST'])
-def main_page():
+def main_page(default_language=app_default_language):
     if request.method == 'POST' and 'source_text' in request.json:
         language_translate_from = request.json['translate_from']
         language_translate_to = request.json['translate_to']
@@ -53,26 +55,26 @@ def main_page():
 
     elif request.method == 'POST':
         print(request.json)
-        flash("Thank you! Translation submitted!")
+        # TODO Create json which will return message to user
         return "OK", 201
 
-    return render_template('index-et.html')
+    return render_template('index-{lang}.html'.format(lang=default_language))
 
 
 @app.route('/<language>', methods=['GET'])
-def get_main_page(language):
+def get_main_page(language, default_language=app_default_language):
     try:
         return render_template('index-{lang}.html'.format(lang=language))
     except Exception as e:
-        return render_template('index-en.html')
+        return render_template('index-{lang}.html'.format(lang=default_language))
 
 
 @app.route('/about/<language>', methods=['GET'])
-def about_page_estonian(language):
+def about_page_estonian(language, default_language=app_default_language):
     try:
         return render_template('about-{lang}.html'.format(lang=language))
     except Exception as e:
-        return render_template('about-en.html')
+        return render_template('about-{lang}.html'.format(lang=default_language))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
