@@ -29,7 +29,9 @@ def ut_translation(queue, text, translate_from='et', translate_to='en', connecti
         translation = s.recv(__BUFFER_SIZE__).replace("|||", "")
         s.close()
 
-        print("ut", translation)
+        print("ut")
+        print(unicode(translation).encode('utf-8'))
+
     except Exception as e:
         print("ut failed!", e)
 

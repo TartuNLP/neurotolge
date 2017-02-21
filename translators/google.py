@@ -15,7 +15,8 @@ def save_google_translation(queue, source_text, translate_from='et', translate_t
         translation = google_translation(source_text,
                                          translate_from=translate_from,
                                          translate_to=translate_to)
-        print("google", translation)
+        print("google")
+        print(unicode(translation).encode('utf-8'))
 
     except Exception as e:
 

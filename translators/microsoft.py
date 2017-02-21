@@ -16,7 +16,8 @@ def save_microsoft_translation(queue, source_text, client_id, client_secret, tra
                                             translate_to=translate_to,
                                             client_id=client_id,
                                             client_secret=client_secret)
-        print("microsoft", translation)
+        print("microsoft")
+        print(unicode(translation).encode('utf-8'))
 
     except Exception as e:
         print("microsoft failed!", e)

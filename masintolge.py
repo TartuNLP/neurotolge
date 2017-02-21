@@ -32,7 +32,8 @@ def main_page(default_language=app_default_language):
         language_translate_to = request.json['translate_to']
         source_text = request.json['source_text']
 
-        print("text for translation : ", source_text)
+        print("text for translation")
+        print(unicode(source_text).encode('utf-8'))
         print("language translate from :", language_translate_from)
         print("language translate to :", language_translate_to)
 
