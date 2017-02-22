@@ -5,11 +5,15 @@
 import time
 import requests
 import json
+import datetime
 
 
 def save_google_translation(queue, source_text, translate_from='et', translate_to='en'):
     translation = ''
 
+    timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S:%f')
+    print("timestamp/google")
+    print(timestamp)
     translation_time_begin = time.time()
     try:
         translation = google_translation(source_text,

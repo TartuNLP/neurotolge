@@ -10,19 +10,15 @@ app = Flask(__name__)
 app.secret_key = 'masintolge_tartu'
 app_default_language = 'et'
 
-# Translators
-# TODO Review this code for possible future refactoring
 from parallel_translation.parallel_translation_requests import get_translations
-from language.available_languages import get_available_language_culture_name_pairs, \
-                                         language_culture_names_to_estonian, \
-                                         language_culture_names_to_english
+from language.available_languages import get_available_language_culture_name_dicts, \
+                                         get_available_language_culture_name_tuples, \
+                                         culture_names
 
-app.jinja_env.globals['available_language_pairs'] = get_available_language_culture_name_pairs()
+app.jinja_env.globals['available_language_pairs'] = get_available_language_culture_name_dicts()
 
-app.jinja_env.globals['language_culture_names_to_estonian'] = \
-    language_culture_names_to_estonian(get_available_language_culture_name_pairs())
-app.jinja_env.globals['language_culture_names_to_english'] = \
-            language_culture_names_to_english(get_available_language_culture_name_pairs())
+app.jinja_env.globals['language_culture_names_to_estonian'] = culture_names(language='et')
+app.jinja_env.globals['language_culture_names_to_english'] = culture_names(language='en')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -67,6 +63,7 @@ def get_main_page(language, default_language=app_default_language):
     try:
         return render_template('index-{lang}.html'.format(lang=language))
     except Exception as e:
+        print("Page was not found. Move to default.", e.message)
         return render_template('index-{lang}.html'.format(lang=default_language))
 
 
@@ -75,6 +72,7 @@ def about_page_estonian(language, default_language=app_default_language):
     try:
         return render_template('about-{lang}.html'.format(lang=language))
     except Exception as e:
+        print("Page was not found. Move to default.", e.message)
         return render_template('about-{lang}.html'.format(lang=default_language))
 
 if __name__ == '__main__':

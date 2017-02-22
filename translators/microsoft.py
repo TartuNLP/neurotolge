@@ -4,11 +4,15 @@
 
 from microsofttranslator import Translator
 import time
+import datetime
 
 
 def save_microsoft_translation(queue, source_text, client_id, client_secret, translate_from='et', translate_to='en'):
     translation = ''
 
+    timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S:%f')
+    print("timestamp/microsoft")
+    print(timestamp)
     translation_time_begin = time.time()
     try:
         translation = microsoft_translation(source_text,

@@ -1,40 +1,38 @@
 #!/usr/bin/python
 #  -*- encoding: utf-8 -*-
 
-
-languages_in_estonian = {'et': 'Eesti', 'en': 'Inglise'}
-languages_in_english = {'et': 'Estonian', 'en': 'English'}
-
-
-def get_available_language_culture_name_pairs():
-    return [{"et": "en"}, {"en": "et"}]
+language_titles_in_estonian = {'et': 'Eesti', 'en': 'Inglise', 'fi': 'Soome'}
+language_titles_in_english = {'et': 'Estonian', 'en': 'English', 'fi': 'Finnish'}
 
 
-# TODO How to handle languages which are not in the list, is it possible ?
-def language_culture_names_to_estonian(languages_list):
-    language_culture_name_to_estonian = dict()
-    for languages in languages_list:
-        lang_from = languages.keys()[0]
-        lang_to = languages.items()[0]
-
-        if lang_from in languages_in_estonian:
-            language_culture_name_to_estonian[lang_from] = languages_in_estonian[lang_from]
-
-        if lang_to in languages_in_estonian:
-            language_culture_name_to_estonian[lang_to] = languages_in_estonian[lang_to]
-
-    return language_culture_name_to_estonian
+def get_available_language_culture_name_tuples():
+    return [("et", "en"), ("en", "et"), ("et", "fi"), ("fi", "et")]
 
 
-def language_culture_names_to_english(languages_list):
-    language_culture_name_to_english = dict()
-    for languages in languages_list:
-        lang_from = languages.keys()[0]
-        lang_to = languages.items()[0]
+def get_available_language_culture_name_dicts():
+    language_culture_name_pairs = get_available_language_culture_name_tuples()
+    return [{lang_from: lang_to} for lang_from, lang_to in language_culture_name_pairs]
 
-        if lang_from in languages_in_english:
-            language_culture_name_to_english[lang_from] = languages_in_english[lang_from]
+def get_language_titles(language):
+    if language == 'et':
+        return language_titles_in_estonian
+    elif language == 'en':
+        return language_titles_in_english
 
-        if lang_to in languages_in_english:
-            language_culture_name_to_english[lang_to] = languages_in_english[lang_to]
-    return language_culture_name_to_english
+    print("Language titles were not found. Convert to default language titles.")
+    return language_titles_in_estonian
+
+
+def culture_names(language='et'):
+    language_culture_name = dict()
+    languages = get_available_language_culture_name_tuples()
+    language_titles = get_language_titles(language)
+    for lang_from, lang_to in languages:
+
+        if lang_from in language_culture_name:
+            language_culture_name[lang_from] = language_titles[lang_from]
+
+        if lang_to in language_titles_in_english:
+            language_culture_name[lang_to] = language_titles[lang_to]
+
+    return language_culture_name

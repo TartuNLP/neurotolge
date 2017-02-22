@@ -4,12 +4,15 @@
 
 import time
 import socket
-import sys
+import datetime
 
 
 def ut_translation(queue, text, translate_from='et', translate_to='en', connection_timeout=3):
     translation = ''
 
+    timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S:%f')
+    print("timestamp/ut")
+    print(timestamp)
     translation_time_begin = time.time()
     try:
         __HOST__ = "booster2.hpc.ut.ee"
