@@ -8,6 +8,7 @@ Masintõlge is a text translation agreggator of 3 translators:
 - Google
 - Bing(Microsoft)
 - UT
+
 which collect feedback about best translations. 
 
 ## Why should I use Masintõlge?
