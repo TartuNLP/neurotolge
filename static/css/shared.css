@@ -136,3 +136,14 @@ html, body {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
 }
+
+
+.microsoft-size {
+    width: 25px;
+    height: 25px;
+}
+
+.google-size {
+    width: 28px;
+    height: 28px;
+}

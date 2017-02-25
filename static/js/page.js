@@ -49,6 +49,13 @@ function CreateTranslationRow(image_path, translation_text) {
           " translation-text pointer container-text"),
       image = $(document.createElement('img')).addClass("img-responsive"); // icon-max-size
 
+  if (image_path.includes("microsoft")) {
+      image.addClass("microsoft-size");
+  }
+   if (image_path.includes("google")) {
+      image.addClass("google-size");
+  }
+
   // Add image + translation
   $(translation_div).addClass("row");
   $(image).attr("src", image_path);
@@ -60,7 +67,7 @@ function CreateTranslationRow(image_path, translation_text) {
 
   // Add space
   var space_div = document.createElement('div');
-  $(space_div).addClass("space3percent");
+  $(space_div).addClass("space7percent");
   $("#translation-choice").append(space_div);
 
   return null;
@@ -119,6 +126,7 @@ function ShowTranslation(content, translation_title = "Palun vali kõige parim t
 
   if (num_translations < 1) {
     translation_title = "";
+    $('#translation-title').clear();
   }
 
   content = FilterEmptyTranslations(RandomShuffle(content));
