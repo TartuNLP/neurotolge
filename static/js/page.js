@@ -60,7 +60,7 @@ function CreateTranslationRow(image_path, translation_text) {
 
   // Add space
   var space_div = document.createElement('div');
-  $(space_div).addClass("space1percent");
+  $(space_div).addClass("space3percent");
   $("#translation-choice").append(space_div);
 
   return null;

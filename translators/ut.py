@@ -7,7 +7,7 @@ import socket
 import datetime
 
 
-def ut_translation(queue, text, translate_from='et', translate_to='en', connection_timeout=3):
+def ut_translation(queue, source_text, translate_from='et', translate_to='en', connection_timeout=30):
     translation = ''
 
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S:%f')
@@ -21,7 +21,7 @@ def ut_translation(queue, text, translate_from='et', translate_to='en', connecti
 
         delimiter = "|||"
         text_for_translation = u"{source}{delimiter}" \
-                               u"{lang_from}{delimiter}{lang_to}".format(source=text,
+                               u"{lang_from}{delimiter}{lang_to}".format(source=source_text,
                                                                          delimiter=delimiter,
                                                                          lang_from=translate_from,
                                                                          lang_to=translate_to)
