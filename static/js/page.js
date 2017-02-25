@@ -1,21 +1,22 @@
 /* TODO! Make JS refactoring to make code more modular */
 
-/* TODO Refactor this function, after adding unit-tests */
+/* TODO Remove hard-code of available translators */
+/**
+ * @return {string}
+ */
 function CreateImagePath(company) {
   console.log("CreateImagePath");
-  var image_path = "/static/image/", extension = ".png";
-  if (company === "google") {
-    return image_path + company + extension;
+  var image_path = "/static/image/",
+      extension = ".png",
+      available_translators = ["google", "microsoft", "ut"];
+
+  for (var index in available_translators) {
+      if (company === available_translators[index]) {
+          return image_path + company + extension;
+      }
   }
-  else if (company === "microsoft") {
-    return image_path + company + extension;
-  }
-  else if (company === "ut") {
-    return image_path + company + extension;
-  }
-  else {
-    return image_path + "question_mark" + extension;
-  }
+
+  return image_path + "question_mark" + extension;
 }
 
 function CleanTranslationTitle() {
@@ -39,9 +40,14 @@ function CreateTranslationRow(image_path, translation_text) {
   console.log("CreateTranslationRow");
 
   var translation_div = document.createElement('div'),
-      image_div = $(document.createElement('div')).addClass("wrapper col-lg-2 col-md-2 col-sm-2 col-xs-2 pointer"),
-      text_div = $(document.createElement('div')).addClass("col-lg-10 col-md-10 col-sm-10 col-xs-10 translation-text pointer"),
-      image = $(document.createElement('img')).addClass("img-responsive icon-max-size pull-right");
+      image_div = $(document.createElement('div')).addClass("col-lg-1 col-md-1 col-sm-1 col-xs-1 container-img" +
+          " pointer"),
+      text_div = $(document.createElement('div')).addClass("col-lg-offset-1 col-lg-11" +
+          " col-md-offset-1 col-md-11" +
+          " col-sm-offset-1 col-sm-11" +
+          " col-xs-offset-1 col-xs-11" +
+          " translation-text pointer container-text"),
+      image = $(document.createElement('img')).addClass("img-responsive"); // icon-max-size
 
   // Add image + translation
   $(translation_div).addClass("row");
@@ -102,7 +108,16 @@ function ShowTranslation(content, translation_title = "Palun vali kõige parim t
   CleanFooter();
   CreateTranslationTitle(translation_title);
 
-  if(content.length < 2) {
+  var num_translations = 0;
+  for (var index in content) {
+      if (content[index].translation) {
+          num_translations++;
+      }
+  }
+
+  console.error("Number translations", num_translations);
+
+  if (num_translations < 1) {
     translation_title = "";
   }
 
@@ -146,8 +161,7 @@ function RemoveListeners() {
                                  false);
   }
   console.log("Listeners removed");
-};
-
+}
 function AddListeners() {
   console.log("AddListeners");
   var elements = document.getElementsByClassName("pointer");

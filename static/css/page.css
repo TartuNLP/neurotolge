@@ -16,3 +16,23 @@ h1 {
   border-color: #2e2722 !important;
   /*border: 0.37px;*/
 }
+
+.container-text {
+  line-height: 18px;
+  word-wrap: normal;
+}
+
+.container-img {
+  max-height: 18px;
+  max-width: 18px;
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+img {
+    position:absolute;
+    top: 0;
+    left:0;
+    margin: 0;
+}

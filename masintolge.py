@@ -11,9 +11,7 @@ app.secret_key = 'masintolge_tartu'
 app_default_language = 'et'
 
 from parallel_translation.parallel_translation_requests import get_translations
-from language.available_languages import get_available_language_culture_name_dicts, \
-                                         get_available_language_culture_name_tuples, \
-                                         culture_names
+from language.available_languages import get_available_language_culture_name_dicts, culture_names
 
 app.jinja_env.globals['available_language_pairs'] = get_available_language_culture_name_dicts()
 
