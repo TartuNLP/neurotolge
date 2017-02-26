@@ -22,6 +22,7 @@ def get_translations(source_text, language_translate_from, language_translate_to
                                                                                  language_translate_to)
                                         )
     thread_microsoft.daemon = True
+    thread_microsoft.start()
 
     thread_google = threading.Thread(target=save_google_translation, args=(queue,
                                                                            source_text,
@@ -29,6 +30,7 @@ def get_translations(source_text, language_translate_from, language_translate_to
                                                                            language_translate_to)
                                      )
     thread_google.daemon = True
+    thread_google.start()
 
     thread_ut = threading.Thread(target=ut_translation, args=(queue,
                                                               source_text,
@@ -36,14 +38,11 @@ def get_translations(source_text, language_translate_from, language_translate_to
                                                               language_translate_to)
                                  )
     thread_ut.daemon = True
-
-    thread_microsoft.start()
-    thread_google.start()
     thread_ut.start()
 
-    thread_microsoft.join(timeout=timeout)
-    thread_google.join(timeout=timeout)
-    thread_ut.join(timeout=timeout)
+    # thread_microsoft.join(timeout=timeout)
+    # thread_google.join(timeout=timeout)
+    # thread_ut.join(timeout=timeout)
 
     translations = dict()
 

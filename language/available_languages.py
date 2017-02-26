@@ -13,6 +13,7 @@ def get_available_language_culture_name_dicts():
     language_culture_name_pairs = get_available_language_culture_name_tuples()
     return [{lang_from: lang_to} for lang_from, lang_to in language_culture_name_pairs]
 
+
 def get_language_titles(language):
     if language == 'et':
         return language_titles_in_estonian
