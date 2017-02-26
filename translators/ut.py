@@ -42,5 +42,4 @@ def ut_translation(queue, source_text, translate_from='et', translate_to='en', c
     print("ut/time : ", translation_time_end - translation_time_begin)
 
     queue.put({'translation_ut': translation})
-
     return None

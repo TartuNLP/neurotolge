@@ -19,7 +19,7 @@ h1 {
 
 .container-text {
   line-height: 18px;
-  word-wrap: normal;
+  word-wrap: break-word;
 }
 
 .container-img {
