@@ -57,6 +57,7 @@ function GenerateTranslateFromList(language_pairs, language_culture_names) {
   console.log("set", languages);
 
   console.error("keys", languages.keys());
+
   for(var language of languages.keys()) {
     console.log("language", language);
     var li = document.createElement('li'),

@@ -149,3 +149,8 @@ html, body {
     width: 28px;
     height: 28px;
 }
+
+.translation-text-length-counter {
+    color: rgba(133, 133, 133, 0.57);
+    font-size: 9.8pt;
+}

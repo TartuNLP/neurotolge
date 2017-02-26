@@ -80,7 +80,7 @@ function Swap(content, index1, index2) {
   content[index2] = temp;
 }
 
-function RandomShuffle(content, num_swaps = 10) {
+function RandomShuffle(content, num_swaps) {
   console.log("RandomShuffle");
   for(var num_swap = 0; num_swap < num_swaps; ++num_swap) {
       var index1 = Math.floor(Math.random() * content.length),
@@ -109,7 +109,7 @@ function FilterEmptyTranslations(content) {
 }
 
 
-function ShowTranslation(content, translation_title = "Palun vali kõige parim tõlge:") {
+function ShowTranslation(content, translation_title) {
   console.log("ShowTranslation");
   CleanTranslationAll();
   CleanFooter();
@@ -129,7 +129,7 @@ function ShowTranslation(content, translation_title = "Palun vali kõige parim t
     $('#translation-title').clear();
   }
 
-  content = FilterEmptyTranslations(RandomShuffle(content));
+  content = FilterEmptyTranslations(RandomShuffle(content, 10));
 
   for(var index in content) {
     var image_path = CreateImagePath('');
@@ -232,10 +232,7 @@ function SaveBestTranslator(content, position) {
   });
 }
 
-function CreateFooter(about_url = "project_information.html",
-                      contacts_url = "contacts.html",
-                      about_text = "Projekti üldinfo",
-                      contacts_text = "Kontakt") {
+function CreateFooter(about_url, contacts_url,about_text, contacts_text) {
   console.log("CreateFooter");
 
   var about_div = document.createElement('div'),
@@ -308,5 +305,15 @@ $(function() {
                 console.log("error", error);
             }
         });
+    });
+});
+
+$(document).ready(function() {
+    var max_text_length = 500;
+    $('#translation-textarea-char-counter').html("0/" + max_text_length.toString());
+
+    $('#translation-textarea').keyup(function() {
+        var text_length = $('#translation-textarea').val().length;
+        $('#translation-textarea-char-counter').html(text_length.toString() + "/" + max_text_length.toString());
     });
 });
