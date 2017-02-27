@@ -154,3 +154,23 @@ html, body {
     color: rgba(133, 133, 133, 0.57);
     font-size: 9.8pt;
 }
+
+.container-text {
+  line-height: 18px;
+  word-wrap: break-word;
+}
+
+.container-img {
+  max-height: 18px;
+  max-width: 18px;
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+img {
+    position:absolute;
+    top: 0;
+    left:0;
+    margin: 0;
+}

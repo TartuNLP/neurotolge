@@ -45,9 +45,11 @@ def get_translations(source_text, language_translate_from, language_translate_to
     # thread_ut.join(timeout=timeout)
 
     translations = dict()
+    # queue.join()
 
     for _ in xrange(num_translators):
         for key, value in queue.get().iteritems():
             translations[key] = value
+            queue.task_done()
 
     return translations

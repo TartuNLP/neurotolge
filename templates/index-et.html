@@ -17,7 +17,6 @@
 
     <link href="{{url_for('static', filename='css/language-translation-field.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='css/shared.css')}}" rel="stylesheet">
-    <link href="{{url_for('static', filename='css/page.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='css/language-buttons.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='css/translate-button.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='css/contacts.css')}}" rel="stylesheet">
@@ -26,16 +25,17 @@
 
 <body class="cursor-custom">
   <div class="container page-wrap">
+
       <!--language_buttons-->
       <div class="row">
           <div id="languages" class="header hidden-xs">
             <a href="/et">
-              <div class = "btn-sm language-btn language-left-btn">
+              <div class="btn-sm language-btn language-left-btn">
                 EST
               </div>
             </a>
             <a href="/en">
-              <div class = "btn-sm language-btn language-right-btn">
+              <div class="btn-sm language-btn language-right-btn">
                 ENG
               </div>
             </a>
