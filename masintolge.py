@@ -12,6 +12,7 @@ app_default_language = 'et'
 
 from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_dicts, culture_names
+from translators.ut import save_ut_translation
 
 app.jinja_env.globals['available_language_pairs'] = get_available_language_culture_name_dicts()
 
@@ -19,6 +20,7 @@ app.jinja_env.globals['language_culture_names_to_estonian'] = culture_names(lang
 app.jinja_env.globals['language_culture_names_to_english'] = culture_names(language='en')
 
 
+# TODO This logic should be rewritten later
 @app.route('/', methods=['GET', 'POST'])
 def main_page(default_language=app_default_language):
     if request.method == 'POST' and 'source_text' in request.json:
@@ -54,6 +56,25 @@ def main_page(default_language=app_default_language):
         return "OK", 201
 
     return render_template('index-{lang}.html'.format(lang=default_language))
+
+
+@app.route("/translate", methods=['GET'])
+def translate():
+    language_translate_from = request.json['translate_from']
+    language_translate_to = request.json['translate_to']
+    source_text = request.json['source_text']
+
+    translation_ut = save_ut_translation(source_text, language_translate_from, language_translate_to)
+
+    if translation_ut == '':
+        return json.dumps({
+            'status': 'FAIL'
+        })
+
+    return json.dumps({
+        'status': 'OK',
+        'translation': translation_ut
+    })
 
 
 @app.route('/<language>', methods=['GET'])
