@@ -8,8 +8,13 @@ import datetime
 
 
 def ut_translation(queue, source_text, translate_from='et', translate_to='en', connection_timeout=30):
-    translation = ''
+    translation = save_ut_translation(source_text, translate_from, translate_to, connection_timeout)
 
+    queue.put({'translation_ut': translation})
+    return
+
+
+def save_ut_translation(source_text, translate_from='et', translate_to='en', connection_timeout=30):
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S:%f')
     print("timestamp/ut")
     print(timestamp)
@@ -36,10 +41,10 @@ def ut_translation(queue, source_text, translate_from='et', translate_to='en', c
         print(unicode(translation).encode('utf-8'))
 
     except Exception as e:
+        translation = ''
         print("ut failed!", e)
 
     translation_time_end = time.time()
     print("ut/time : ", translation_time_end - translation_time_begin)
 
-    queue.put({'translation_ut': translation})
-    return None
+    return translation

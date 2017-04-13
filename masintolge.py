@@ -12,6 +12,9 @@ app_default_language = 'et'
 
 from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_dicts, culture_names
+from translators.ut import save_ut_translation
+from werkzeug.exceptions import BadRequestKeyError
+
 
 app.jinja_env.globals['available_language_pairs'] = get_available_language_culture_name_dicts()
 
@@ -19,6 +22,7 @@ app.jinja_env.globals['language_culture_names_to_estonian'] = culture_names(lang
 app.jinja_env.globals['language_culture_names_to_english'] = culture_names(language='en')
 
 
+# TODO This logic should be rewritten later
 @app.route('/', methods=['GET', 'POST'])
 def main_page(default_language=app_default_language):
     if request.method == 'POST' and 'source_text' in request.json:
@@ -54,6 +58,88 @@ def main_page(default_language=app_default_language):
         return "OK", 201
 
     return render_template('index-{lang}.html'.format(lang=default_language))
+
+
+@app.route("/play", methods=['GET'])
+def play():
+    request_args = request.args
+    print "Play request arguments :", request_args
+
+    translation_google = ''
+    translation_microsoft = ''
+    translation_ut = ''
+    start_translation_time = time.time()
+    try:
+        language_translate_from = request_args['from']
+        language_translate_to = request_args['to']
+        source_text = request_args['q']
+
+        translations = get_translations(source_text, language_translate_from, language_translate_to)
+
+        translation_google = translations['translation_google']
+        translation_microsoft = translations['translation_microsoft']
+        translation_ut = translations['translation_ut']
+
+        print {"from": language_translate_from,
+               "to": language_translate_to,
+               "source_text": source_text}
+
+        print {"google": translation_google,
+               "microsoft": translation_microsoft,
+               "ut": translation_ut}
+
+    except BadRequestKeyError as e:
+        print "BadRequestKeyError occurred: ", e.message
+
+    end_translation_time = time.time()
+    print("Total translation time : ", end_translation_time - start_translation_time)
+
+    if translation_google == '' and translation_microsoft == '' and translation_ut == '':
+        return json.dumps({
+            'success': False
+        })
+
+    return json.dumps({
+        'success': True,
+        'translations': [
+            {'translator': 'google', 'translation': translation_google},
+            {'translator': 'ut', 'translation': translation_ut},
+            {'translator': 'microsoft', 'translation': translation_microsoft}
+        ]
+    })
+
+
+# TODO Add time tracking
+@app.route("/translate", methods=['GET'])
+def translate():
+    request_args = request.args
+
+    print "Translate request arguments :", request_args
+
+    translation_ut = ''
+    try:
+        language_translate_from = request_args['from']
+        language_translate_to = request_args['to']
+        source_text = request_args['q']
+
+        print {"from": language_translate_from,
+               "to": language_translate_to,
+               "source_text": source_text}
+        translation_ut = save_ut_translation(source_text, language_translate_from, language_translate_to)
+    except BadRequestKeyError as e:
+        print "BadRequestKeyError occurred: ", e.message
+
+    if translation_ut == '':
+        return json.dumps({
+            'error': True
+        })
+
+    return json.dumps({
+        'success': True,
+        'translations': [
+            {'translator': 'ut', 'translation': translation_ut}
+        ]
+    })
 
 
 @app.route('/<language>', methods=['GET'])
