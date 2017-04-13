@@ -19,3 +19,4 @@ Using Masintõlge you:
 - Support one of great University of Tartu research projects
 - Can find a tool for your everyday life
 
+:-P
