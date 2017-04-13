@@ -5,8 +5,9 @@ language_titles_in_estonian = {'et': 'Eesti', 'en': 'Inglise', 'fi': 'Soome'}
 language_titles_in_english = {'et': 'Estonian', 'en': 'English', 'fi': 'Finnish'}
 
 
+# Finnish language is disabled
 def get_available_language_culture_name_tuples():
-    return [("et", "en"), ("en", "et"), ("et", "fi"), ("fi", "et")]
+    return [("et", "en"), ("en", "et")] # ("et", "fi"), ("fi", "et")]
 
 
 def get_available_language_culture_name_dicts():
