@@ -6,15 +6,16 @@ import time
 import socket
 import datetime
 
-
-def ut_translation(queue, source_text, translate_from='et', translate_to='en', connection_timeout=30):
+# TODO Change on connection_timeout=30
+def ut_translation(queue, source_text, translate_from='et', translate_to='en', connection_timeout=1):
     translation = save_ut_translation(source_text, translate_from, translate_to, connection_timeout)
 
     queue.put({'translation_ut': translation})
     return
 
 
-def save_ut_translation(source_text, translate_from='et', translate_to='en', connection_timeout=30):
+# TODO Change on connection_timeout=30
+def save_ut_translation(source_text, translate_from='et', translate_to='en', connection_timeout=1):
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S:%f')
     print("timestamp/ut")
     print(timestamp)
@@ -41,6 +42,7 @@ def save_ut_translation(source_text, translate_from='et', translate_to='en', con
         print(unicode(translation).encode('utf-8'))
 
     except Exception as e:
+        translation = ''
         print("ut failed!", e)
 
     translation_time_end = time.time()
