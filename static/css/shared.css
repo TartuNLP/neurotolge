@@ -61,7 +61,7 @@
 }
 
 .general-info {
-  color: #e73627;
+  color: #e73627 !important;
 }
 
 .navbar-default {

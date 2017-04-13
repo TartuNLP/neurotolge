@@ -136,7 +136,9 @@ def translate():
 
     return json.dumps({
         'success': True,
-        'translation': translation_ut
+        'translations': [
+            {'translator': 'ut', 'translation': translation_ut}
+        ]
     })
 
 

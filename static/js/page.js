@@ -37,7 +37,7 @@ function CleanTranslationAll() {
   CleanTranslationDivs();
 }
 
-function CreateTranslationRow(image_path, translation_text) {
+function CreateTranslationRow(image_path, translation_text, extra_class) {
   console.log("CreateTranslationRow");
 
   var translation_div = document.createElement('div'),
@@ -47,7 +47,7 @@ function CreateTranslationRow(image_path, translation_text) {
           " col-md-offset-1 col-md-11" +
           " col-sm-offset-1 col-sm-11" +
           " col-xs-offset-1 col-xs-11" +
-          " translation-text pointer container-text"),
+          " translation-text pointer container-text" + " " + extra_class),
       image = $(document.createElement('img')).addClass("img-responsive"); // icon-max-size
 
   if (image_path.includes("microsoft")) {
@@ -75,25 +75,28 @@ function CreateTranslationRow(image_path, translation_text) {
 }
 
 function Swap(content, index1, index2) {
-  console.log("Swap");
+  console.log("Swap in");
   var temp = content[index1];
   content[index1] = content[index2];
   content[index2] = temp;
+  console.log("Swap out");
 }
 
 function RandomShuffle(content, num_swaps) {
-  console.log("RandomShuffle");
+  console.log("RandomShuffle in");
   for(var num_swap = 0; num_swap < num_swaps; ++num_swap) {
       var index1 = Math.floor(Math.random() * content.length),
           index2 = Math.floor(Math.random() * content.length);
     Swap(content, index1, index2);
   }
+  console.log("RandomShuffle out");
   return content;
 }
 
 function CreateTranslationTitle(translation_title) {
-  console.log("CreateTranslationTitle");
+  console.log("CreateTranslationTitle in");
   $("#translation-title").removeClass("invisible");
+  console.log("CreateTranslationTitle out");
 }
 
 function FilterEmptyTranslations(content) {
@@ -144,7 +147,7 @@ function ShowTranslation(content, translation_title) {
   for(var index in content) {
     var image_path = ((num_translations > 1) ? CreateImagePath('') : CreateImagePath(content[index].translator));
     console.warn("Image path", image_path);
-    CreateTranslationRow(image_path, content[index].translation);
+    CreateTranslationRow(image_path, content[index].translation, "");
   }
 
   CreateFooter();
@@ -152,14 +155,21 @@ function ShowTranslation(content, translation_title) {
   return content;
 }
 
-function ShowTranslatorsBasedOnTranslation(content) {
+function ShowTranslatorsBasedOnTranslation(content, position) {
   console.log("ShowTranslatorsBasedOnTranslation in");
   CleanTranslationAll();
   CleanFooter();
 
   for(var index in content) {
     var image_path = CreateImagePath(content[index].translator);
-    CreateTranslationRow(image_path, content[index].translation);
+    console.warn(index, position, typeof(index), typeof(position));
+    if (Number(index) === position) {
+        console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!Equal!!!!!!!!!!!!!!!!!");
+        CreateTranslationRow(image_path, content[index].translation, "general-info");
+    }
+    else {
+        CreateTranslationRow(image_path, content[index].translation, "");
+    }
   }
 
   CreateFooter();
@@ -190,10 +200,14 @@ function AddListeners() {
 
                                     var position = FindChosenTranslatorPosition(this);
 
+                                    //var row = $('#translation-choice > .row')[position];
+                                    //console.log("Row", row);
+                                    //this.parent().addClass("invisible");
+
                                     console.log("position", position);
                                     console.log("corresponding content", content[position].translator);
 
-                                    ShowTranslatorsBasedOnTranslation(content);
+                                    ShowTranslatorsBasedOnTranslation(content, position);
 
                                     SaveBestTranslator(content, position);
                                  },
@@ -212,6 +226,8 @@ function FindChosenTranslatorPosition(source) {
   $.each(rows, function(index, row){
     if (clicked_row.is(row)) {
       position = index;
+      console.warn("Clicked row", clicked_row);
+      clicked_row.addClass('text');
     }
   });
   console.log("FindChosenTranslatorsPosition out");
