@@ -47,4 +47,4 @@ def save_ut_translation(source_text, translate_from='et', translate_to='en', con
     translation_time_end = time.time()
     print("ut/time : ", translation_time_end - translation_time_begin)
 
-    return translation
+    return translation.title()
