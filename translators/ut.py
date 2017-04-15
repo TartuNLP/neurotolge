@@ -42,10 +42,14 @@ def save_ut_translation(source_text, translate_from='et', translate_to='en', con
         print("ut")
         print(unicode(translation).encode('utf-8'))
 
+        if source_text[len(source_text) - 1] != '.' and \
+           len(translation) > 0 and \
+           translation[len(translation) - 1] == '.':
+            translation = translation[:- 1]
     except Exception as e:
         translation = ''
         print("ut failed!", e)
 
     translation_time_end = time.time()
     print("ut/time : ", translation_time_end - translation_time_begin)
-    return translation.capitalize()
+    return translation
