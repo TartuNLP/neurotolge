@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 app.secret_key = 'masintolge_tartu'
-app_default_language = 'et'
+app_default_language = 'en'
 
 from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_dicts, culture_names
