@@ -14,8 +14,10 @@
   text-decoration: none;
 }
 
-.site-footer>a {
-  vertical-align: middle;
+/* TODO Check this change */
+.site-footer > a {
+  margin: auto;
+  /*vertical-align: middle;*/
 }
 
 a, a:visited, a:hover, a:link, a:active {

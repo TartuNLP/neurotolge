@@ -16,7 +16,7 @@ function ReCreateMenu(chooseLanguage, current_element) {
     $('.dropdown.pull-left').addClass('open');
     $('div #language-translate-from-list li a.language').on('click', function() {
       ReCreateMenu($('#language-translate-from'), $(this));
-      GenerateTranslateTo($(this).attr('name'), language_pairs, language_culture_names);
+      GenerateTranslateToList($(this).attr('name'), language_pairs, language_culture_names);
     });
   });
 
@@ -72,11 +72,11 @@ function GenerateTranslateFromList(language_pairs, language_culture_names) {
     $('#language-translate-from-list').append(li)
   }
 
-  GenerateTranslateTo('et', language_pairs, language_culture_names);
+  GenerateTranslateToList('et', language_pairs, language_culture_names);
 }
 
-function GenerateTranslateTo(language_translate_from, language_pairs, language_culture_names) {
-  //console.log("GenerateTranslateTo");
+function GenerateTranslateToList(language_translate_from, language_pairs, language_culture_names) {
+  //console.log("GenerateTranslateToList");
 
   $('#language-translate-to-list').empty();
 
@@ -102,12 +102,12 @@ function GenerateTranslateTo(language_translate_from, language_pairs, language_c
     a.setAttribute('href', '#');
     a.setAttribute('tabindex', '-1');
     a.setAttribute('name', language);
-    a.setAttribute('class', 'language');
+    a.setAttribute('class', 'language text-right');
     a.innerHTML = language_culture_names[language];
     li.append(a);
     $('#language-translate-to-list').append(li)
   }
 
-  //console.log("GenerateTranslateTo test", languages);
+  //console.log("GenerateTranslateToList test", languages);
   //return null;
 }

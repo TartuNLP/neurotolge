@@ -58,7 +58,7 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
   }
 
   // Add image + translation
-  $(translation_div).addClass("row margin-left-8px");
+  $(translation_div).addClass("row margin-left-10px");
   $(image).attr("src", image_path);
   $(text_div).text(translation_text);
   $(image).appendTo(image_div);

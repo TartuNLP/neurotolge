@@ -1,38 +1,38 @@
 .dropdown-toggle .icon-bars-button{
-  display: inline-block;
-  vertical-align:middle;
+    display: inline-block;
+    vertical-align:middle;
 }
 .dropdown-toggle .icon-bar {
-  margin-bottom: 2px;
-  display: block;
-  width: 22px;
-  height: 2px;
-  background-color: #000000;
-  border-radius: 1px;
+    margin-bottom: 2px;
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #000000;
+    border-radius: 1px;
 }
 
 .space30px {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
 .space10px {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .space1percent {
-  margin-top: 1%;
+    margin-top: 1%;
 }
 
 .space3percent {
-  margin-top: 3%;
+    margin-top: 3%;
 }
 
 .space5percent {
-  margin-top: 5%;
+    margin-top: 5%;
 }
 
 .space7percent {
-  margin-top: 7%;
+    margin-top: 7%;
 }
 
 .space15percent {
@@ -40,20 +40,20 @@
 }
 
 .space17percent {
-  margin-top: 17%;
+    margin-top: 17%;
 }
 
 .space20percent {
-  margin-top: 20%;
+    margin-top: 20%;
 }
 
 .icon-max-size {
-  max-width: 40px;
-  max-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
 }
 
 .cursor-custom {
-   cursor: url('/static/image/hand-pointer-icon.png'), auto;
+    cursor: url('/static/image/hand-pointer-icon.png'), auto;
 }
 
 .pointer {
@@ -61,20 +61,20 @@
 }
 
 .general-info {
-  color: #e73627 !important;
+    color: #e73627 !important;
 }
 
 .navbar-default {
-  background-color: #ffffff;
-  border-width: 0;
+    background-color: #ffffff;
+    border-width: 0;
 }
 
 .navbar-toggle {
-  border-width: 0;
+    border-width: 0;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: #000000;
+    background-color: #000000;
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
@@ -101,11 +101,11 @@ html, body {
 }
 
 .site-footer {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .site-footer  {
-  height: 20px;
+  height: 22px;
 }
 
 .text-center-xs {
@@ -150,9 +150,18 @@ html, body {
     height: 28px;
 }
 
+
+@font-face {
+    font-family: sourcesansprolight;
+    src: url('../fonts/SourceSansPro-Light.ttf');
+}
+
 .translation-text-length-counter {
     color: rgba(133, 133, 133, 0.57);
-    font-size: 9.8pt;
+    font-family: 'sourcesansprolight';
+    font-weight: 300;
+    letter-spacing: 1px;
+    font-size: 8pt;
 }
 
 .container-text {
@@ -183,12 +192,16 @@ textarea {
    padding: 0 !important;
 }
 
+.margin-left-minus-11px {
+    margin-left: -11px;
+}
+
 .padding-left-12px {
     padding-left: 12px !important;
 }
 
-.margin-left-8px {
-    margin-left: 8px !important;
+.margin-left-10px {
+    margin-left: 10px !important;
 }
 
 .margin-left-3px {
