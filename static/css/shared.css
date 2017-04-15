@@ -175,6 +175,10 @@ img {
     margin: 0;
 }
 
+textarea {
+    outline: none;
+}
+
 .nopadding {
    padding: 0 !important;
 }
