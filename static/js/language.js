@@ -11,32 +11,34 @@ function ReCreateMenu(chooseLanguage, current_element) {
 
 
 (function() {
-  $('.dropdown.pull-left').mouseenter(function() {
-    $('.translate-from').attr('area-expanded', true);
-    $('.dropdown.pull-left').addClass('open');
-    $('div #language-translate-from-list li a.language').on('click', function() {
-      ReCreateMenu($('#language-translate-from'), $(this));
-      GenerateTranslateToList($(this).attr('name'), language_pairs, language_culture_names);
+    var dropdown_pull_left = $('.dropdown.pull-left'),
+        dropdown_pull_right = $('.dropdown.pull-right');
+    dropdown_pull_left.mouseenter(function() {
+        $('.translate-from').attr('area-expanded', true);
+        dropdown_pull_left.addClass('open');
+        $('div #language-translate-from-list li a.language').on('click', function() {
+            ReCreateMenu($('#language-translate-from'), $(this));
+            GenerateTranslateToList($(this).attr('name'), language_pairs, language_culture_names);
+        });
     });
-  });
 
-  $('.dropdown.pull-right').mouseenter(function() {
-    $('.translate-to').attr('area-expanded', true);
-    $('.dropdown.pull-right').addClass('open');
-    $('div #language-translate-to-list li a.language').on('click', function() {
-      ReCreateMenu($('#language-translate-to'), $(this));
+    dropdown_pull_right.mouseenter(function() {
+        $('.translate-to').attr('area-expanded', true);
+        dropdown_pull_right.addClass('open');
+        $('div #language-translate-to-list li a.language').on('click', function() {
+            ReCreateMenu($('#language-translate-to'), $(this));
+        });
     });
-  });
 
 
-  $($('.dropdown.pull-left').parent(), '.translate-from').mouseleave(function(){
+  $(dropdown_pull_left.parent(), '.translate-from').mouseleave(function(){
     $('.translate-from').attr('area-expanded', false);
-    $('.dropdown.pull-left').removeClass('open');
+    dropdown_pull_left.removeClass('open');
   });
 
-  $($('.dropdown.pull-right').parent(), '.translate-to').mouseleave(function(){
+  $(dropdown_pull_right.parent(), '.translate-to').mouseleave(function(){
     $('.translate-to').attr('area-expanded', false);
-    $('.dropdown.pull-right').removeClass('open');
+    dropdown_pull_right.removeClass('open');
   });
 
 }) ();
