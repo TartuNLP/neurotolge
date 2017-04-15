@@ -66,8 +66,9 @@ def play():
     print "Play request arguments :", request_args
 
     translation_google = ''
-    translation_microsoft = ''
+    translation_tilde = ''
     translation_ut = ''
+    # translation_microsoft = ''
     start_translation_time = time.time()
     try:
         language_translate_from = request_args['from']
@@ -77,16 +78,18 @@ def play():
         translations = get_translations(source_text, language_translate_from, language_translate_to)
 
         translation_google = translations['translation_google']
-        translation_microsoft = translations['translation_microsoft']
+        translation_tilde = translations['translation_tilde']
         translation_ut = translations['translation_ut']
+        # translation_microsoft = translations['translation_microsoft']
 
         print {"from": language_translate_from,
                "to": language_translate_to,
                "source_text": source_text}
 
         print {"google": translation_google,
-               "microsoft": translation_microsoft,
+               "tilde": translation_tilde,
                "ut": translation_ut}
+        # "microsoft": translation_microsoft,
 
     except BadRequestKeyError as e:
         print "BadRequestKeyError occurred: ", e.message
@@ -94,7 +97,7 @@ def play():
     end_translation_time = time.time()
     print("Total translation time : ", end_translation_time - start_translation_time)
 
-    if translation_google == '' and translation_microsoft == '' and translation_ut == '':
+    if translation_google == '' and translation_tilde == '' and translation_ut == '':
         return json.dumps({
             'success': False
         })
@@ -103,8 +106,9 @@ def play():
         'success': True,
         'translations': [
             {'translator': 'google', 'translation': translation_google},
-            {'translator': 'ut', 'translation': translation_ut},
-            {'translator': 'microsoft', 'translation': translation_microsoft}
+            {'translator': 'tilde', 'translation': translation_tilde},
+            {'translator': 'ut', 'translation': translation_ut}
+            # {'translator': 'microsoft', 'translation': translation_microsoft}
         ]
     })
 

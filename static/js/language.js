@@ -66,7 +66,7 @@ function GenerateTranslateFromList(language_pairs, language_culture_names) {
     a.setAttribute('href', '#');
     a.setAttribute('tabindex', '-1');
     a.setAttribute('name', language);
-    a.setAttribute('class', 'language');
+    a.setAttribute('class', 'language padding-left-12px');
     a.innerHTML = language_culture_names[language];
     li.append(a);
     $('#language-translate-from-list').append(li)

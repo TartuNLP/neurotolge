@@ -10,7 +10,7 @@ from translators.ut import ut_translation
 from translators.tilde import tilde_translation
 
 
-def get_translations(source_text, language_translate_from, language_translate_to, timeout=3, num_translators=3):
+def get_translations(source_text, language_translate_from, language_translate_to, timeout=3, num_translators=4):
     queue = Queue.Queue()
     print("get_translations : language_translate_from", language_translate_from)
     print("get_translations : language_translate_to", language_translate_to)

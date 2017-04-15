@@ -8,7 +8,7 @@ function CreateImagePath(company) {
   //console.log("CreateImagePath");
   var image_path = "/static/image/",
       extension = ".png",
-      available_translators = ["google", "microsoft", "ut"];
+      available_translators = ["google", "tilde", "ut"]; // "microsoft"
 
   for (var index in available_translators) {
       if (available_translators.hasOwnProperty(index) && company === available_translators[index]) {
@@ -58,7 +58,7 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
   }
 
   // Add image + translation
-  $(translation_div).addClass("row");
+  $(translation_div).addClass("row margin-left-8px");
   $(image).attr("src", image_path);
   $(text_div).text(translation_text);
   $(image).appendTo(image_div);
@@ -337,7 +337,7 @@ $(function() {
             cache: false,
             success: function(response) {
                 translations = JSON.parse(response)["translations"];
-                //console.log("response", response);
+                console.log("response", response);
                 content = ShowTranslation(content=translations);
                 $('.translation-loader').addClass('hidden');
 
