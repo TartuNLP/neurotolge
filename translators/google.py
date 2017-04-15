@@ -39,4 +39,4 @@ def google_translation(text, translate_from='et', translate_to='en'):
     response = requests.get(url)
     json_response = json.loads(response.text)
     translation = json_response['data']['translations'][0]['translatedText']
-    return translation.title()
+    return translation.capitalize()

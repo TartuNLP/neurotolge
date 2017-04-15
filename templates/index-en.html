@@ -23,7 +23,6 @@
 
 <body class="cursor-custom">
     <div class="container page-wrap">
-        <!--language_buttons-->
         <div class="row">
             <div id="languages" class="header hidden-xs">
                 <!--Move in texts-->
@@ -242,13 +241,13 @@
     <script>
         var language_pairs = {{ available_language_pairs|tojson }};
         var language_culture_names = {{ language_culture_names_to_english|tojson }};
-        console.error(language_culture_names);
+        //console.error(language_culture_names);
 
-        console.log("Before GenerateTranslateFromList");
+        //console.log("Before GenerateTranslateFromList");
         $(function() {
             GenerateTranslateFromList(language_pairs, language_culture_names);
         });
-        console.log("After GenerateTranslateFromList");
+        //console.log("After GenerateTranslateFromList");
     </script>
 
     {% endblock %}
