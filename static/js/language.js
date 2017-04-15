@@ -1,6 +1,6 @@
 
 function ReCreateMenu(chooseLanguage, current_element) {
-  console.log("ReCreateMenu");
+  //console.log("ReCreateMenu");
   var caret = '<span class="caret dropdown-arrow"></span>';
   var language = current_element.text();
   var name = current_element.attr('name');
@@ -45,21 +45,21 @@ function ReCreateMenu(chooseLanguage, current_element) {
 
 function GenerateTranslateFromList(language_pairs, language_culture_names) {
 
-  console.log("GenerateTranslateFromList");
+  //console.log("GenerateTranslateFromList");
 
-  console.log("GenerateTranslateFromList", language_pairs, language_culture_names);
+  //console.log("GenerateTranslateFromList", language_pairs, language_culture_names);
 
   var languages = new Set();
   for(var index in language_pairs) {
-    console.log("index", index);
+    //console.log("index", index);
     languages.add(Object.keys(language_pairs[index])[0]);
   }
-  console.log("set", languages);
+  //console.log("set", languages);
 
-  console.error("keys", languages.keys());
+  //console.error("keys", languages.keys());
 
   for(var language of languages.keys()) {
-    console.log("language", language);
+    //console.log("language", language);
     var li = document.createElement('li'),
         a = document.createElement('a');
 
@@ -73,12 +73,10 @@ function GenerateTranslateFromList(language_pairs, language_culture_names) {
   }
 
   GenerateTranslateTo('et', language_pairs, language_culture_names);
-
-  return null;
 }
 
 function GenerateTranslateTo(language_translate_from, language_pairs, language_culture_names) {
-  console.log("GenerateTranslateTo");
+  //console.log("GenerateTranslateTo");
 
   $('#language-translate-to-list').empty();
 
@@ -110,7 +108,6 @@ function GenerateTranslateTo(language_translate_from, language_pairs, language_c
     $('#language-translate-to-list').append(li)
   }
 
-  console.log("GenerateTranslateTo test", languages);
-
-  return null;
+  //console.log("GenerateTranslateTo test", languages);
+  //return null;
 }
