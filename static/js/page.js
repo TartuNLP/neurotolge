@@ -312,7 +312,6 @@ $(function() {
     $('#playButton').click(function() {
         //console.log("Click play button");
 
-        $('.translation-loader').removeClass('hidden');
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
         var source_text = $('textarea').val();
@@ -323,28 +322,30 @@ $(function() {
         param['translate_to'] = translate_to;
 
         //console.log("data", JSON.stringify(param, null, '\t'));
+        if($.trim(source_text).length > 0) {
+            $('.translation-loader').removeClass('hidden');
+            $.ajax({
+                url: '/play',
+                type: 'GET',
+                data: {
+                    from: translate_from,
+                    to: translate_to,
+                    q: source_text
+                },
+                cache: false,
+                success: function (response) {
+                    translations = JSON.parse(response)["translations"];
+                    console.log("response", response);
+                    content = ShowTranslation(content = translations);
+                    $('.translation-loader').addClass('hidden');
 
-        $.ajax({
-            url: '/play',
-            type: 'GET',
-            data: {
-                from: translate_from,
-                to: translate_to,
-                q: source_text
-            },
-            cache: false,
-            success: function(response) {
-                translations = JSON.parse(response)["translations"];
-                console.log("response", response);
-                content = ShowTranslation(content=translations);
-                $('.translation-loader').addClass('hidden');
-
-                AddListeners.call(this);
-            },
-            error: function(error) {
-                //console.log("error", error);
-            }
-        });
+                    AddListeners.call(this);
+                },
+                error: function (error) {
+                    //console.log("error", error);
+                }
+            });
+        }
     });
 });
 
@@ -353,32 +354,35 @@ $(function() {
     $('#translateButton').click(function() {
         //console.warn("Click translate button");
 
-        $('.translation-loader').removeClass('hidden');
+
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
         var source_text = $('textarea').val();
 
-        $.ajax({
-            url: '/translate',
-            type: 'GET',
-            data: {
-                from: translate_from,
-                to: translate_to,
-                q: source_text
-            },
-            cache: false,
-            success: function(response) {
-                translations = JSON.parse(response)["translations"];
-                //console.log("response", response);
-                content = ShowTranslation(content=translations);
-                $('.translation-loader').addClass('hidden');
+        if ($.trim(source_text).length > 0) {
+            $('.translation-loader').removeClass('hidden');
+            $.ajax({
+                url: '/translate',
+                type: 'GET',
+                data: {
+                    from: translate_from,
+                    to: translate_to,
+                    q: source_text
+                },
+                cache: false,
+                success: function (response) {
+                    translations = JSON.parse(response)["translations"];
+                    //console.log("response", response);
+                    content = ShowTranslation(content = translations);
+                    $('.translation-loader').addClass('hidden');
 
-                AddListeners.call(this);
-            },
-            error: function(error) {
-                //console.log("error", error);
-            }
-        });
+                    AddListeners.call(this);
+                },
+                error: function (error) {
+                    //console.log("error", error);
+                }
+            });
+        }
     });
 });
 
