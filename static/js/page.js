@@ -4,7 +4,7 @@
 /**
  * @return {string}
  */
-function CreateImagePath(company) {
+function CreateImagePath(company, color) {
   //console.log("CreateImagePath");
   var image_path = "/static/image/",
       extension = ".png",
@@ -12,7 +12,7 @@ function CreateImagePath(company) {
 
   for (var index in available_translators) {
       if (available_translators.hasOwnProperty(index) && company === available_translators[index]) {
-          return image_path + company + extension;
+          return image_path + company + color + extension;
       }
   }
 
@@ -53,7 +53,7 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
   if (image_path.includes("microsoft")) {
       image.addClass("microsoft-size");
   }
-   if (image_path.includes("google")) {
+  if (image_path.includes("google")) {
       image.addClass("google-size");
   }
 
@@ -116,21 +116,18 @@ function FilterEmptyTranslations(content) {
 
 
 function ShowTranslation(content, translation_title) {
-  //console.log("ShowTranslation in");
   CleanTranslationAll();
   CleanFooter();
   CreateTranslationTitle(translation_title);
 
-  var num_translations = 0;
-  for (var index in content) {
+  var num_translations = 0, index;
+  for (index in content) {
       if (content.hasOwnProperty(index) &&
           content[index].hasOwnProperty('translation') &&
-          content[index].translation !== "") {
+          content[index]['translation'] !== "") {
           num_translations++;
       }
   }
-
-  //console.log("Number translations", num_translations);
 
   if (num_translations < 2) {
     translation_title = "";
@@ -144,14 +141,15 @@ function ShowTranslation(content, translation_title) {
 
   content = FilterEmptyTranslations(RandomShuffle(content, 10));
 
-  for(var index in content) {
-    var image_path = ((num_translations > 1) ? CreateImagePath('') : CreateImagePath(content[index].translator));
-    //console.warn("Image path", image_path);
-    CreateTranslationRow(image_path, content[index].translation, "");
+  for(index in content) {
+      if (content.hasOwnProperty(index)) {
+          var image_path = ((num_translations > 1) ?
+              CreateImagePath("", "") : CreateImagePath(content[index]['translator'], ""));
+          CreateTranslationRow(image_path, content[index]['translation'], "");
+      }
   }
 
   CreateFooter();
-  //console.log("ShowTranslation out");
   return content;
 }
 
@@ -161,13 +159,13 @@ function ShowTranslatorsBasedOnTranslation(content, position) {
   CleanFooter();
 
   for(var index in content) {
-    var image_path = CreateImagePath(content[index].translator);
-    //console.warn(index, position, typeof(index), typeof(position));
     if (Number(index) === position) {
-        //console.warn("!!!!!!!!!!!!!!!!!!!!!!!!!Equal!!!!!!!!!!!!!!!!!");
+        var image_path = CreateImagePath(content[index].translator, "");
         CreateTranslationRow(image_path, content[index].translation, "general-info");
     }
     else {
+
+        var image_path = CreateImagePath(content[index].translator, "_grey");
         CreateTranslationRow(image_path, content[index].translation, "");
     }
   }
