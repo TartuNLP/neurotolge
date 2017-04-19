@@ -161,7 +161,12 @@ function ShowTranslatorsBasedOnTranslation(content, position) {
   for(var index in content) {
     if (Number(index) === position) {
         var image_path = CreateImagePath(content[index].translator, "");
-        CreateTranslationRow(image_path, content[index].translation, "general-info");
+        if (content.length > 1) {
+            CreateTranslationRow(image_path, content[index].translation, "general-info");
+        }
+        else {
+            CreateTranslationRow(image_path, content[index].translation, "general-text-info");
+        }
     }
     else {
 
@@ -234,33 +239,35 @@ function FindChosenTranslatorPosition(source) {
 
 // TODO Rewrite this functionality
 function SaveBestTranslator(content, position) {
-  //console.log("SaveBestTranslator in");
-  var param = {};
-  for (var index in content) {
-      if (content.hasOwnProperty(index) &&
-          content[index].hasOwnProperty('translator') &&
-          content[index].hasOwnProperty('translation')) {
-          param[content[index].translator] = content[index].translation;
-      }
-  }
-
-  var best_translator = content[position].translator;
-  param['best_translator'] = best_translator;
-
-  //console.log("param", param);
-  $.ajax({
-    url: '/',
-    data: JSON.stringify(param, null, '\t'),
-    type: 'POST',
-    contentType: 'application/json;charset=UTF-8',
-    success: function(response) {
-      //console.log("response", response);
-    },
-    error: function(error) {
-      //console.log("error", error);
+    //console.log("SaveBestTranslator in");
+    var param = {};
+    for (var index in content) {
+        if (content.hasOwnProperty(index) &&
+            content[index].hasOwnProperty('translator') &&
+            content[index].hasOwnProperty('translation')) {
+            param[content[index].translator] = content[index].translation;
+        }
     }
-  });
-  //console.log("SaveBestTranslator out");
+
+    var best_translator = content[position].translator;
+    param['best_translator'] = best_translator;
+
+    if (content.length > 1) {
+        //console.log("param", param);
+        $.ajax({
+            url: '/',
+            data: JSON.stringify(param, null, '\t'),
+            type: 'POST',
+            contentType: 'application/json;charset=UTF-8',
+            success: function (response) {
+                //console.log("response", response);
+            },
+            error: function (error) {
+                //console.log("error", error);
+            }
+        });
+    }
+    //console.log("SaveBestTranslator out");
 }
 
 
@@ -335,7 +342,7 @@ $(function() {
                 cache: false,
                 success: function (response) {
                     translations = JSON.parse(response)["translations"];
-                    console.log("response", response);
+                    //console.log("response", response);
                     content = ShowTranslation(content = translations);
                     $('.translation-loader').addClass('hidden');
 
