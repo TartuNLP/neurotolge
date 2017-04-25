@@ -163,7 +163,7 @@ def about_page_estonian(language, default_language=app_default_language):
         return render_template('about-{lang}.html'.format(lang=default_language))
 
 @app.route('/errors/<language>', methods=['GET'])
-def about_page_estonian(language, default_language=app_default_language):
+def errors_page_estonian(language, default_language=app_default_language):
     try:
         return render_template('errors-{lang}.html'.format(lang=language))
     except Exception as e:
