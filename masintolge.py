@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 app.secret_key = 'masintolge_tartu'
-app_default_language = 'en'
+app_default_language = 'et'
 
 from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_dicts, culture_names
@@ -154,7 +154,6 @@ def get_main_page(language, default_language=app_default_language):
         print("Page was not found. Move to default.", e.message)
         return render_template('index-{lang}.html'.format(lang=default_language))
 
-
 @app.route('/about/<language>', methods=['GET'])
 def about_page_estonian(language, default_language=app_default_language):
     try:
@@ -162,6 +161,14 @@ def about_page_estonian(language, default_language=app_default_language):
     except Exception as e:
         print("Page was not found. Move to default.", e.message)
         return render_template('about-{lang}.html'.format(lang=default_language))
+
+@app.route('/errors/<language>', methods=['GET'])
+def about_page_estonian(language, default_language=app_default_language):
+    try:
+        return render_template('errors-{lang}.html'.format(lang=language))
+    except Exception as e:
+        print("Page was not found. Move to default.", e.message)
+        return render_template('errors-{lang}.html'.format(lang=default_language))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
