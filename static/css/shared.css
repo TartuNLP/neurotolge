@@ -181,6 +181,10 @@ html, body {
   vertical-align: middle;
 }
 
+div {
+	text-align: justify;
+}
+
 img {
     position:absolute;
     top: 0;
