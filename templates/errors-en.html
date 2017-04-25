@@ -1,0 +1,50 @@
+{% extends "index-en.html"%}
+{% block head %}
+Translation quality and errors
+{% endblock %}
+
+{% block content %}
+    <div class="row main-block">
+      <div class="space5percent"></div>
+          <div class="content">
+            <div class="row">
+              <div class="col-lg-8 col-lg-offset-2
+                          col-md-8 col-md-offset-2
+                          col-sm-8 col-sm-offset-2
+                          col-xs-12">
+                <span class="contact">Translation quality and errors</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-8 col-lg-offset-2
+                          col-md-8 col-md-offset-2
+                          col-sm-8 col-sm-offset-2
+                          col-xs-12
+                          text">
+								  Yes, our system makes mistakes. Not only that, it sometimes generates ridiculous translations that have little or nothing to do with your input sentence. Other translation systems, especially the ones using neural networks, behave the same way (e.g. try translating "Paneb puusse." to English; the correct translation is "screws up"). Often it also works amazingly well (e.g. try "It reports remarkable achievements in tackling neglected tropical diseases since 2007.").
+								  
+                            <div class="space10px"></div>
+									 
+									 The reason for this behaviour is that neural MT systems primarily learn to generate output text, with the option of looking at the input text. Whenever the input is unexpected in any way to the system, or when the stars in the sky have apparently aligned in the wrong way, it can generate some text that is at best very weakly (at worst not at all) related to the input sentence. We are looking for a way to improve this.
+
+                            <div class="space10px"></div>
+									
+									Despite the errors the system makes, it can be used for example for post-editing (manually fixing the automatic translation), which works especially well with strict or limited text domains like legal texts, technical manuals and subtitles -- it can get 20%-30% faster than translating manually from scratch.
+									
+                            <div class="space10px"></div>
+									 
+									As for overall quality, here are the general statistics collected from your clicks on the best translations under the "Play" button:
+									<p><img src="/static/image/genstats.png" border="0px"></p>
+									Not bad, right? The only reason Tilde seems to be behind is that their translation system is tuned for localization, technical texts and such (we conjecture). 
+									
+                            <div class="space10px"></div>
+									 
+									 Of course this is very general and does not give any details. Here are the same statistics separately for shorter or longer input sentences:
+									<p><img src="/static/image/lenstats.png" border="0px"></p>
+									So you can see, that Google really beats the other systems at very short sentences, and Tilde is better at long sentences, while our system is best at medium length sentences.
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}

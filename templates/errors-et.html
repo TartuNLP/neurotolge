@@ -1,0 +1,50 @@
+{% extends "index-en.html"%}
+{% block head %}
+Tõlkekvaliteet ja vead
+{% endblock %}
+
+{% block content %}
+    <div class="row main-block">
+      <div class="space5percent"></div>
+          <div class="content">
+            <div class="row">
+              <div class="col-lg-8 col-lg-offset-2
+                          col-md-8 col-md-offset-2
+                          col-sm-8 col-sm-offset-2
+                          col-xs-12">
+                <span class="contact">Tõlkekvaliteet ja vead</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-8 col-lg-offset-2
+                          col-md-8 col-md-offset-2
+                          col-sm-8 col-sm-offset-2
+                          col-xs-12
+                          text">
+								  Jah, meie tõlkesüsteem teeb vigu. Mõnikord ta isegi genereerib mõttetuid tõlkeid, mis on väga nõrgalt või üldse mitte seotud sisendlausega. Teised tõlkesüsteemid, eriti tehisnärvivõrgupõhised käituvad samamoodi (nt. proovige tõlkida "Paneb puusse." inglise keelde). Sageli töötab ta üllatavalt hästi ka (nt. proovige "It reports remarkable achievements in tackling neglected tropical diseases since 2007.").
+								  
+                            <div class="space10px"></div>
+									 
+									 Sellise käitumise põhjus on selles, et neuromasintõlke süsteemid õppivad eelkõige genereerima väljundteksti, ning võimalikult (kuid mitte kohustuslikult) vaadata ka sisendteksti peale. Iga kord kui sisendteksti on ükskõik mis mõttes süsteemi jaoks ootamatu, või tähed taevas on valetpidi joondunud, võib süsteem genereerida mingisugust teksti, mis on parimal juhul napilt (halvimal juhul üldse pole) seotud sisendtekstiga. Me otsime viisi, kuidas olukorda parandada.
+
+                            <div class="space10px"></div>
+									
+									Vaatamata tõlkevigadele saab meie tõlkesüsteemi kasutada praktikas -- näiteks järeltoimetamiseks (ehk tõlgime automaatselt, parandame käsitsi), mis on eriti edukas piiratud tekstivaldkondadega nagu juriidilised või tehnilised tekstid ning subtiitrid, kus tõlkeproduktiivsus võib kasvata 20%-30% võrreldes inimtõlkega nullist.
+									
+                            <div class="space10px"></div>
+									 
+									Mis puutub üldkvaliteeti, järgneb meie korjatud statistika teie parima tõlke valikutest nupu "mängi" alt:
+									<p><img src="/static/image/genstats.png" border="0px"></p>
+									Pole paha, eks? Oletame, et ainus põhjus, et Tilde tundub taha jäävat on see, et nende tõlkesüsteem on pigem kohendatud tarkvara lokaliseerimiseks, tehniliste tekstide jms jaoks (me oletame). 
+									
+                            <div class="space10px"></div>
+									 
+									 Muidugi, see pole üldse detailne; siin on sama statistika, eraldatuna lausepikkuse järgi:
+									<p><img src="/static/image/lenstats.png" border="0px"></p>
+									Nagu võite näha, Google Translate on edukaim väga lühikeste lausete puhul, ning Tilde süsteemil tulevad pikad laused välja paremini kui teistel. Meie süsteem saab kõige paremini hakkama keskmise pikkusega lausetega.
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}
