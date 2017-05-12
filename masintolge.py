@@ -154,6 +154,7 @@ def get_main_page(language, default_language=app_default_language):
         print("Page was not found. Move to default.", e.message)
         return render_template('index-{lang}.html'.format(lang=default_language))
 
+
 @app.route('/about/<language>', methods=['GET'])
 def about_page_estonian(language, default_language=app_default_language):
     try:
@@ -162,13 +163,14 @@ def about_page_estonian(language, default_language=app_default_language):
         print("Page was not found. Move to default.", e.message)
         return render_template('about-{lang}.html'.format(lang=default_language))
 
-@app.route('/errors/<language>', methods=['GET'])
+
+@app.route('/error/<language>', methods=['GET'])
 def errors_page_estonian(language, default_language=app_default_language):
     try:
-        return render_template('errors-{lang}.html'.format(lang=language))
+        return render_template('error-{lang}.html'.format(lang=language))
     except Exception as e:
         print("Page was not found. Move to default.", e.message)
-        return render_template('errors-{lang}.html'.format(lang=default_language))
+        return render_template('error-{lang}.html'.format(lang=default_language))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
