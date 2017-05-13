@@ -79,3 +79,7 @@
   margin-left: 15%;
   margin-right: 15%;
 }
+
+.text-center-force {
+    text-align: center !important;
+}
