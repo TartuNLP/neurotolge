@@ -51,27 +51,29 @@ function GenerateTranslateFromList(language_pairs, language_culture_names) {
 
   //console.log("GenerateTranslateFromList", language_pairs, language_culture_names);
 
-  var languages = new Set();
+  var languages = [];
   for(var index in language_pairs) {
     //console.log("index", index);
-    languages.add(Object.keys(language_pairs[index])[0]);
+    languages.push(Object.keys(language_pairs[index])[0]);
   }
   //console.log("set", languages);
 
-  //console.error("keys", languages.keys());
+  //console.log("keys", languages);
 
-  for(var language of languages.keys()) {
-    //console.log("language", language);
-    var li = document.createElement('li'),
-        a = document.createElement('a');
+  for(var index in languages) {
+      //console.log("language", index);
+    if (languages.hasOwnProperty(index)) {
+      var li = document.createElement('li'),
+          a = document.createElement('a');
 
-    a.setAttribute('href', '#');
-    a.setAttribute('tabindex', '-1');
-    a.setAttribute('name', language);
-    a.setAttribute('class', 'language padding-left-12px');
-    a.innerHTML = language_culture_names[language];
-    li.append(a);
-    $('#language-translate-from-list').append(li)
+      a.setAttribute('href', '#');
+      a.setAttribute('tabindex', '-1');
+      a.setAttribute('name', languages[index]);
+      a.setAttribute('class', 'language padding-left-12px');
+      a.innerHTML = language_culture_names[languages[index]];
+      li.append(a);
+      $('#language-translate-from-list').append(li);
+    }
   }
 
   GenerateTranslateToList('et', language_pairs, language_culture_names);
@@ -82,32 +84,36 @@ function GenerateTranslateToList(language_translate_from, language_pairs, langua
 
   $('#language-translate-to-list').empty();
 
-  var languages = new Set();
+  var languages = [];
   for(var index in language_pairs) {
     if(Object.keys(language_pairs[index])[0] === language_translate_from) {
-      languages.add(language_pairs[index][Object.keys(language_pairs[index])[0]]);
+      languages.push(language_pairs[index][Object.keys(language_pairs[index])[0]]);
     }
   }
 
   var chooseLanguage = $('#language-translate-to');
   var caret = '<span class="caret dropdown-arrow"></span>';
-  var name = languages.keys().next().value;
+  var name = languages[0];
   var language_ = language_culture_names[name];
+  //console.log("language", languages, language_);
+
   chooseLanguage.text(language_ + ' ');
   chooseLanguage.append(caret);
   chooseLanguage.attr('name', name);
 
-  for(var language of languages.keys()) {
-    var li = document.createElement('li'),
-        a = document.createElement('a');
+  for(var index in languages) {
+    if (languages.hasOwnProperty(index)) {
+        var li = document.createElement('li'),
+            a = document.createElement('a');
 
-    a.setAttribute('href', '#');
-    a.setAttribute('tabindex', '-1');
-    a.setAttribute('name', language);
-    a.setAttribute('class', 'language text-right');
-    a.innerHTML = language_culture_names[language];
-    li.append(a);
-    $('#language-translate-to-list').append(li)
+        a.setAttribute('href', '#');
+        a.setAttribute('tabindex', '-1');
+        a.setAttribute('name', languages[index]);
+        a.setAttribute('class', 'language text-right');
+        a.innerHTML = language_culture_names[languages[index]];
+        li.append(a);
+        $('#language-translate-to-list').append(li);
+    }
   }
 
   //console.log("GenerateTranslateToList test", languages);
