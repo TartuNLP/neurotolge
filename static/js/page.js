@@ -50,10 +50,10 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
           " translation-text pointer container-text" + " " + extra_class),
       image = $(document.createElement('img')).addClass("img-responsive"); // icon-max-size
 
-  if (image_path.includes("microsoft")) {
-      image.addClass("microsoft-size");
-  }
-  if (image_path.includes("google")) {
+  //if () {
+  //    image.addClass("microsoft-size");
+  //}
+  if ($.inArray("google", image_path)) {
       image.addClass("google-size");
   }
 
