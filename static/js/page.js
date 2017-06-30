@@ -1,11 +1,7 @@
 /* TODO! Make JS refactoring to make code more modular */
 
 /* TODO Remove hard-code of available translators */
-/**
- * @return {string}
- */
 function CreateImagePath(company, color) {
-  //console.log("CreateImagePath");
   var image_path = "/static/image/",
       extension = ".png",
       available_translators = ["google", "tilde", "ut"]; // "microsoft"
@@ -20,26 +16,21 @@ function CreateImagePath(company, color) {
 }
 
 function CleanTranslationTitle() {
-  //console.log("CleanTranslationTitle");
   $("#translation-title").addClass("invisible");
 }
 
 function CleanTranslationDivs() {
-  //console.log("CleanTranslationDivs");
   var translation_choice = $("#translation-choice");
   translation_choice.empty();
   translation_choice.remove(".space1percent");
 }
 
 function CleanTranslationAll() {
-  //console.log("CleanTranslationAll");
   CleanTranslationTitle();
   CleanTranslationDivs();
 }
 
 function CreateTranslationRow(image_path, translation_text, extra_class) {
-  //console.log("CreateTranslationRow");
-
   var translation_div = document.createElement('div'),
       image_div = $(document.createElement('div')).addClass("col-lg-1 col-md-1 col-sm-1 col-xs-1 container-img" +
           " pointer"),
@@ -50,9 +41,6 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
           " translation-text pointer container-text" + " " + extra_class),
       image = $(document.createElement('img')).addClass("img-responsive"); // icon-max-size
 
-  //if () {
-  //    image.addClass("microsoft-size");
-  //}
   if ($.inArray("google", image_path)) {
       image.addClass("google-size");
   }
@@ -75,32 +63,25 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
 }
 
 function Swap(content, index1, index2) {
-  //console.log("Swap in");
   var temp = content[index1];
   content[index1] = content[index2];
   content[index2] = temp;
-  //console.log("Swap out");
 }
 
 function RandomShuffle(content, num_swaps) {
-  //console.log("RandomShuffle in");
   for(var num_swap = 0; num_swap < num_swaps; ++num_swap) {
       var index1 = Math.floor(Math.random() * content.length),
           index2 = Math.floor(Math.random() * content.length);
     Swap(content, index1, index2);
   }
-  //console.log("RandomShuffle out");
   return content;
 }
 
 function CreateTranslationTitle(translation_title) {
-  //console.log("CreateTranslationTitle in");
   $("#translation-title").removeClass("invisible");
-  //console.log("CreateTranslationTitle out");
 }
 
 function FilterEmptyTranslations(content) {
-  //console.log("FilterEmptyTranslations");
   var cleaned_content = [];
   for(var sub_content in content) {
     if(content.hasOwnProperty(sub_content) &&
@@ -108,7 +89,6 @@ function FilterEmptyTranslations(content) {
        content[sub_content]['translation'] !== "") {
       cleaned_content.push(content[sub_content]);
     }
-    //console.log("i", sub_content);
   }
 
   return cleaned_content;
@@ -154,7 +134,6 @@ function ShowTranslation(content, translation_title) {
 }
 
 function ShowTranslatorsBasedOnTranslation(content, position) {
-  //console.log("ShowTranslatorsBasedOnTranslation in");
   CleanTranslationAll();
   CleanFooter();
 
@@ -169,28 +148,23 @@ function ShowTranslatorsBasedOnTranslation(content, position) {
         }
     }
     else {
-
         var image_path = CreateImagePath(content[index].translator, "_grey");
         CreateTranslationRow(image_path, content[index].translation, "");
     }
   }
 
   CreateFooter();
-  //console.log("ShowTranslatorsBasedOnTranslation out");
 }
 
 function RemoveListeners() {
-  //console.log("RemoveListeners in");
   var elements = document.getElementsByClassName("pointer");
   for (var i = 0; i < elements.length; i++) {
     elements[i].removeEventListener('click',
                                  function() {
-                                    //console.log("Inside event listener", content);
                                     ShowTranslatorsBasedOnTranslation(content);
                                  },
                                  false);
   }
-  //console.log("Listeners removed out");
 }
 
 function AddListeners() {
@@ -199,29 +173,16 @@ function AddListeners() {
   for (var i = 0; i < elements.length; i++) {
     elements[i].addEventListener('click',
                                  function() {
-                                    //console.log("Inside event listener", content);
-
                                     var position = FindChosenTranslatorPosition(this);
-
-                                    //var row = $('#translation-choice > .row')[position];
-                                    //console.log("Row", row);
-                                    //this.parent().addClass("invisible");
-
-                                    //console.log("position", position);
-                                    //console.log("corresponding content", content[position].translator);
-
                                     ShowTranslatorsBasedOnTranslation(content, position);
-
                                     SaveBestTranslator(content, position);
                                  },
                                  false);
     }
-    //console.log("Listeners removed out");
 }
 
 
 function FindChosenTranslatorPosition(source) {
-  //console.log("FindChosenTranslatorsPosition in");
   var clicked_row = $(source).parent(),
     rows = $('#translation-choice div.row'),
     position = -1;
@@ -229,17 +190,14 @@ function FindChosenTranslatorPosition(source) {
   $.each(rows, function(index, row){
     if (clicked_row.is(row)) {
       position = index;
-      //console.warn("Clicked row", clicked_row);
       clicked_row.addClass('text');
     }
   });
-  //console.log("FindChosenTranslatorsPosition out");
   return position;
 }
 
 // TODO Rewrite this functionality
 function SaveBestTranslator(content, position) {
-    //console.log("SaveBestTranslator in");
     var param = {};
     for (var index in content) {
         if (content.hasOwnProperty(index) &&
@@ -251,28 +209,24 @@ function SaveBestTranslator(content, position) {
 
     var best_translator = content[position].translator;
     param['best_translator'] = best_translator;
+    console.log(content);
 
     if (content.length > 1) {
-        //console.log("param", param);
         $.ajax({
             url: '/',
             data: JSON.stringify(param, null, '\t'),
             type: 'POST',
             contentType: 'application/json;charset=UTF-8',
             success: function (response) {
-                //console.log("response", response);
             },
             error: function (error) {
-                //console.log("error", error);
             }
         });
     }
-    //console.log("SaveBestTranslator out");
 }
 
 
 function CreateFooter(about_url, contacts_url,about_text, contacts_text) {
-  //console.log("CreateFooter");
 
   var about_div = document.createElement('div'),
       contacts_div = document.createElement('div'),
@@ -295,9 +249,7 @@ function CreateFooter(about_url, contacts_url,about_text, contacts_text) {
 }
 
 function CleanFooter() {
-  //console.log("CleanFooter in");
   $('.footer').empty();
-  //console.log("CleanFooter out");
 }
 
 function ShowMenu() {
@@ -312,12 +264,10 @@ function ShowMenu() {
     main_block.addClass("hidden-xs");
     menu_block.removeClass("hidden-xs");
   }
-  //console.log("ShowMenu out");
 }
 
 $(function() {
     $('#playButton').click(function() {
-        //console.log("Click play button");
 
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
@@ -328,7 +278,6 @@ $(function() {
         param['translate_from'] = translate_from;
         param['translate_to'] = translate_to;
 
-        //console.log("data", JSON.stringify(param, null, '\t'));
         if($.trim(source_text).length > 0) {
             $('.translation-loader').removeClass('hidden');
             $.ajax({
@@ -342,30 +291,27 @@ $(function() {
                 cache: false,
                 success: function (response) {
                     translations = JSON.parse(response)["translations"];
-                    //console.log("response", response);
                     content = ShowTranslation(content = translations);
                     $('.translation-loader').addClass('hidden');
 
                     AddListeners.call(this);
                 },
                 error: function (error) {
-                    //console.log("error", error);
                 }
             });
         }
     });
 });
 
-// Need solve problem with waiting wheel
+
 $(function() {
     $('#translateButton').click(function() {
-        //console.warn("Click translate button");
-
 
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
         var source_text = $('textarea').val();
 
+        // Reduce amount of symbols in input
         if ($.trim(source_text).length > 0) {
             $('.translation-loader').removeClass('hidden');
             $.ajax({
@@ -379,14 +325,12 @@ $(function() {
                 cache: false,
                 success: function (response) {
                     translations = JSON.parse(response)["translations"];
-                    //console.log("response", response);
                     content = ShowTranslation(content = translations);
                     $('.translation-loader').addClass('hidden');
 
                     AddListeners.call(this);
                 },
                 error: function (error) {
-                    //console.log("error", error);
                 }
             });
         }
