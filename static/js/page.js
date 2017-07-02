@@ -1,13 +1,15 @@
 /* TODO! Make JS refactoring to make code more modular */
 
 
-function Renderer() {
-    function renderTranslate(data) {
-        return showTranslateMode(data);
+function Renderer(parameters) {
+    var innerContent = parameters.content;
+
+    function renderTranslate() {
+        return showTranslateMode(innerContent);
     }
 
-    function renderPlay(data) {
-        return showTranslateMode(data);
+    function renderPlay() {
+        return showTranslateMode(innerContent);
     }
 
     return {
@@ -16,8 +18,9 @@ function Renderer() {
     };
 }
 
-// Rewrite current content creation with this functionality
-function Content() {
+
+// TODO This class a bit odd, probably it has to be restructured
+function ContentRenderer() {
     // Header
     function drawHeader() {
         return null;
@@ -38,7 +41,8 @@ function Content() {
 
     // eraseAll
     function eraseAll() {
-        return CleanTranslationAll();
+        CleanTranslationTitle();
+        CleanTranslationDivs();
     }
 
     return {
@@ -50,7 +54,72 @@ function Content() {
             draw: null,
             erase: null
         },
-        content: eraseAll
+        page: {
+            erase: eraseAll
+        }
+    };
+}
+
+
+function TranslationsFormatter(parameters) {
+    var innerContent = parameters.content;
+
+    function Formatter(parameters) {
+        var innerContent = parameters.content;
+
+        function swap(parameters) {
+            var index1 = parameters.index1,
+                index2 = parameters.index2;
+
+            if (innerContent.hasOwnProperty(index1) && innerContent.hasOwnProperty(index2)) {
+                var temp = innerContent[index1];
+                innerContent[index1] = innerContent[index2];
+                innerContent[index2] = temp;
+            }
+        }
+
+        function filterEmpty() {
+            var cleanedContent = [];
+            for (var prop in innerContent) {
+                if (innerContent.hasOwnProperty(prop) &&
+                    innerContent[prop].hasOwnProperty('translation') &&
+                    innerContent[prop]['translation'] !== "") {
+                    cleanedContent.push(innerContent[prop]);
+                }
+            }
+
+            innerContent = cleanedContent;
+        }
+
+        function shuffleTranslations() {
+            var NUM_SWAPS = 10;
+            for (var num_swap = 0; num_swap < NUM_SWAPS; ++num_swap) {
+                var index1 = Math.floor(Math.random() * innerContent.length),
+                    index2 = Math.floor(Math.random() * innerContent.length);
+                swap({index1: index1, index2: index2});
+            }
+        }
+
+        function getContent() {
+            return innerContent;
+        }
+
+        return {
+            filter: filterEmpty,
+            shuffle: shuffleTranslations,
+            get: getContent
+        }
+    }
+
+    function formatContent() {
+        var formatter = new Formatter({content: innerContent});
+        formatter.shuffle();
+        formatter.filter();
+        return formatter.get();
+    }
+
+    return {
+        format: formatContent
     };
 }
 
@@ -78,11 +147,6 @@ function CleanTranslationDivs() {
     var translation_choice = $("#translation-choice");
     translation_choice.empty();
     translation_choice.remove(".space1percent");
-}
-
-function CleanTranslationAll() {
-    CleanTranslationTitle();
-    CleanTranslationDivs();
 }
 
 function CreateTranslationRow(image_path, translation_text, extra_class) {
@@ -117,47 +181,18 @@ function CreateTranslationRow(image_path, translation_text, extra_class) {
     translation_choice.append(space_div);
 }
 
-
-/*TODO Refactor as a separate functionality*/
-function Swap(content, index1, index2) {
-    var temp = content[index1];
-    content[index1] = content[index2];
-    content[index2] = temp;
-}
-
-function RandomShuffle(content, num_swaps) {
-    for (var num_swap = 0; num_swap < num_swaps; ++num_swap) {
-        var index1 = Math.floor(Math.random() * content.length),
-            index2 = Math.floor(Math.random() * content.length);
-        Swap(content, index1, index2);
-    }
-    return content;
-}
-
-
 /*TODO Method does not do what it supposed to*/
-function CreateTranslationTitle(translation_title) {
+function CreateTranslationTitle() {
     $("#translation-title").removeClass("invisible");
 }
 
-function FilterEmptyTranslations(content) {
-    var cleaned_content = [];
-    for (var sub_content in content) {
-        if (content.hasOwnProperty(sub_content) &&
-            content[sub_content].hasOwnProperty('translation') &&
-            content[sub_content]['translation'] !== "") {
-            cleaned_content.push(content[sub_content]);
-        }
-    }
-
-    return cleaned_content;
-}
-
-
 function showTranslateMode(content, translation_title) {
-    CleanTranslationAll();
-    CreateTranslationTitle(translation_title);
+    var contentRenderer = new ContentRenderer();
+    contentRenderer.page.erase();
 
+    CreateTranslationTitle();
+
+    /// TODO This parts of code are duplications to some extend
     var num_translations = 0, index;
     for (index in content) {
         if (content.hasOwnProperty(index) &&
@@ -177,7 +212,13 @@ function showTranslateMode(content, translation_title) {
         return;
     }
 
-    content = FilterEmptyTranslations(RandomShuffle(content, 10));
+    console.log("Before formatting", content);
+
+    var formatter = new TranslationsFormatter({content: content});
+    content = formatter.format();
+
+    ///
+
 
     for (index in content) {
         if (content.hasOwnProperty(index)) {
@@ -191,7 +232,8 @@ function showTranslateMode(content, translation_title) {
 }
 
 function ShowTranslatorsBasedOnTranslation(content, position) {
-    CleanTranslationAll();
+    var contentRenderer = new ContentRenderer();
+    contentRenderer.page.erase();
 
     for (var index in content) {
         if (Number(index) === position) {
@@ -210,6 +252,8 @@ function ShowTranslatorsBasedOnTranslation(content, position) {
     }
 }
 
+
+/*TODO Use or remove*/
 function RemoveListeners() {
     var elements = document.getElementsByClassName("pointer");
     for (var i = 0; i < elements.length; i++) {
@@ -251,6 +295,8 @@ function FindChosenTranslatorPosition(source) {
 
 // TODO Rewrite this functionality
 function SaveBestTranslator(content, position) {
+
+    /*TODO Creation of parameters, isn't important for saveBestTranslation function*/
     var param = {};
     for (var index in content) {
         if (content.hasOwnProperty(index) &&
@@ -294,6 +340,7 @@ function ShowMenu() {
 $(function () {
     $('#playButton').click(function () {
 
+        /*TODO Collect it into the separate function *Helper*/
         var translate_from = $('.translate-from').attr('name');
         var translate_to = $('.translate-to').attr('name');
         var source_text = $('textarea').val();
@@ -310,12 +357,21 @@ $(function () {
                 },
                 cache: false,
                 success: function (response) {
-                    var translations = JSON.parse(response)["translations"];
-                    var renderer = new Renderer();
-                    content = renderer.renderPlayMode(translations);
+
+                    /*TODO Consider it to be collected in the signle function*/
+                    var response_object = JSON.parse(response);
+
+                    var translations = response_object["translations"];
+
+                    var renderer = new Renderer({content: translations});
+
+                    // TODO: Check if this variable is global?!
+                    content = renderer.renderPlayMode();
+
                     $('.translation-loader').addClass('hidden');
 
                     AddListeners.call(this);
+
                 },
                 error: function (error) {
                 }
@@ -346,8 +402,10 @@ $(function () {
                 cache: false,
                 success: function (response) {
                     var translations = JSON.parse(response)["translations"];
-                    var renderer = new Renderer();
-                    content = renderer.renderTranslateMode(translations);
+                    var renderer = new Renderer({content: translations});
+
+                    // TODO: Change `content` to be non-global
+                    content = renderer.renderTranslateMode();
                     $('.translation-loader').addClass('hidden');
 
                     AddListeners.call(this);
