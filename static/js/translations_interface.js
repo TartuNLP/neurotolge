@@ -22,6 +22,7 @@ function PageRenderer() {
 
     // Header
     function drawHeader(content) {
+        console.log("drawHeader", content);
         if (content === undefined) {
             return;
         }
@@ -111,7 +112,9 @@ function TranslateModeRenderer() {
         /*TODO Implement it*/
     }
 
-    function drawPage(content) {
+    /*TODO Think about it more rigorously*/
+    function drawPage(paramaters) {
+        var content = paramaters.content;
         pageRenderer.header.draw(content);
 
         // TODO Change these methods to non-dummy one
@@ -491,6 +494,7 @@ function UserInterfaceHandler(parameters) {
                         var content = renderer.renderTranslateMode();
                         pageRenderer.loader.erase();
 
+                        console.log("/translate", response_object);
                         var translationModeRenderer = new TranslateModeRenderer();
                         translationModeRenderer.page.draw(content);
                     }
