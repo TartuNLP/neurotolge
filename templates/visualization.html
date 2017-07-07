@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="description" content="NMT Attention Alignments">
+	<meta name="authors" content="Matīss Rikters and Dmytro Chasovskyi">
+	<title>NMT Attention Alignments</title>
+	<!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+    <!-- {{url_for('static', filename='css/language-translation-field.css')}} -->
+	<link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='css/bootstrap-select.min.css')}}" rel="stylesheet">
+	<link href="{{url_for('static', filename='css/perfect-scrollbar.min.css')}}" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/perfect-scrollbar.jquery.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/bootstrap-select.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/attentionMR.js')}}"></script>
+    <script src="{{url_for('static', filename='js/d3.v3.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/saveSvgAsPng.js')}}"></script>
+    <script src="{{url_for('static', filename='js/html2canvas.js')}}"></script>
+</head>
+<body>
+
+
+<!--Partial content which can be injected into the code -->
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">NMT Attention Alignments</a>
+    </div>
+<div class="row">
+	<div id="svg"></div>
+    <div id="matrix"></div>
+</div>
+
+<script type="text/javascript">
+
+// TODO: Correct php code
+//<?php
+//Data for our selected sentence
+var alignment_data = {{ alignments|tojson }},
+    source = {{ src_|tojson }},
+    target = {{ tgt|tojson }};
+
+//echo "var alignment_data = ".str_replace("], ],","] ];",$f1->current());
+//echo "var source = [".str_replace("],","]];",$f2->current());
+//echo "var target = [".str_replace("],","]];",$f3->current());
+//?>
+
+
+hideShow(hide,show);
+if(hide == 'matrix'){
+    $('#svgBut').button('toggle');
+}else{
+    $('#matBut').button('toggle');
+    render(source,target,alignment_data);
+    html2canvas($("#matrix"), {
+        onrendered: function (canvas) {
+                getCanvas = canvas;
+        }
+    });
+}
+
+var width = 2200, height = 600, margin ={b:0, t:40, l:-10, r:0};
+var svg = d3.select("#svg")
+	.append("svg")
+	.attr("preserveAspectRatio", "xMinYMin meet")
+	.attr("viewBox", "0 0 620 235")
+	.attr("id", "ali")
+	.classed("svg-content-responsive", true)
+	.append("g")
+	.attr("transform","translate("+ margin.l+","+margin.t+")");
+var data = [
+	{data:bP.partData(alignment_data,source,target), id:'SubWordAlignments'}
+];
+bP.draw(data, svg);
+var getCanvas; // global variable
+d3.select("#save").on("click", function(){
+    console.log(hide);
+    if(hide == 'matrix'){
+        saveSvgAsPng(document.getElementById("ali"), "alignments_"+Date.now()+".png", {scale: 3, backgroundColor: '#FFFFFF'});
+    }else{
+        var imgageData = getCanvas.toDataURL("image/png");
+        var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+        $("#save").attr("download", "matrix_"+Date.now()+".png").attr("href", newData);
+    }
+});
+
+
+$('#c1,#c2,#c3,#c4,#c5').perfectScrollbar({
+  suppressScrollY: true,
+  useBothWheelAxes: true
+});
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('input[type=radio][name=type]').change(function() {
+        if (this.value == 'svg') {
+            hideShow('matrix','svg');
+        }
+        else if (this.value == 'matrix') {
+            render(source,target,alignment_data);
+            hideShow('svg','matrix');
+            html2canvas($("#matrix"), {
+                onrendered: function (canvas) {
+                        getCanvas = canvas;
+                }
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>

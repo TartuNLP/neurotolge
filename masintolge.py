@@ -135,6 +135,12 @@ def translate():
             'error': True
         })
 
+    for i in xrange(len(ut_translation_object["rawTgt"])):
+        print "Index", i
+        print ut_translation_object["rawTgt"][i]
+        print ut_translation_object["alignweights"][i]
+        print
+
     return json.dumps({
         'success': True,
         'translations': [
@@ -171,6 +177,46 @@ def errors_page_estonian(language, default_language=app_default_language):
     except Exception as e:
         print("Page was not found. Move to default.", e.message)
         return render_template('error-{lang}.html'.format(lang=default_language))
+
+
+@app.route('/visualize', methods=['GET'])
+def visualization_page():
+
+    ### TODO Refactor later
+    request_args = request.args
+
+    print "Translate request arguments :", request_args
+
+    ut_translation_object = {}
+    try:
+        language_translate_from = request_args['from']
+        language_translate_to = request_args['to']
+        source_text = request_args['q']
+
+        print {"from": language_translate_from,
+               "to": language_translate_to,
+               "source_text": source_text}
+        ut_translation_object = get_ut_translation_object(source_text, language_translate_from, language_translate_to)
+    except BadRequestKeyError as e:
+        print "BadRequestKeyError occurred: ", e.message
+
+    if ut_translation_object == {}:
+        return json.dumps({
+            'error': True
+        })
+
+    for i in xrange(len(ut_translation_object["rawTgt"])):
+        print "Index", i
+        print ut_translation_object["rawTgt"][i]
+        print ut_translation_object["alignweights"][i]
+        print
+    ###
+
+    app.jinja_env.globals['alignments'] = ut_translation_object["alignweights"]
+    app.jinja_env.globals['src_'] = ut_translation_object["src"]
+    app.jinja_env.globals['tgt'] = ut_translation_object["rawTgt"]
+    return render_template('visualization.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

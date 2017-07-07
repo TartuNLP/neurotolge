@@ -105,7 +105,41 @@ function TranslateModeRenderer() {
     var pageRenderer = new PageRenderer();
 
     function drawVisualization() {
-        /*TODO Implement it*/
+        // TODO: Here should be created such a structure
+        // <div> (row)
+        //   <div> (dummy div)
+        //   <div> (my div)
+        //     <a>
+        //       (anything else if needed)
+
+        var translation_choice = $('#translation-choice');
+        var row_div = $(document.createElement('div')).addClass("row margin-left-10px"),
+            dummy_div = $(document.createElement('div')).addClass("col-lg-1 col-md-1 col-sm-1 col-xs-1 container-img" +
+                " pointer"),
+            link_div = $(document.createElement('div')).addClass("col-lg-offset-1 col-lg-11" +
+            " col-md-offset-1 col-md-11" +
+            " col-sm-offset-1 col-sm-11" +
+            " col-xs-offset-1 col-xs-11" +
+            " translation-text pointer container-text"),
+            link_path = $(document.createElement('a')),
+            span_with_text = $(document.createElement('span')).addClass("general-info");
+        span_with_text.text("Explain!");
+        link_path.attr("href", composeVisualizationLink());
+        link_path.append(span_with_text);
+        link_div.append(link_path);
+        row_div.append(dummy_div);
+        row_div.append(link_div);
+        translation_choice.append(row_div);
+
+
+        function composeVisualizationLink() {
+            var requestObject = new CreateRequestObject();
+            var base_url = "/visualize",
+                translate_from = "&from=" + requestObject.translateFrom,
+                translate_to = "&to=" + requestObject.translateTo,
+                text = "&q=" + requestObject.sourceText;
+            return base_url + "?" + translate_from + translate_to + text;
+        }
     }
 
     function drawBody(content) {
@@ -317,7 +351,7 @@ function showTranslationMode(content) {
     var formatter = new TranslationsFormatter({content: content});
     content = formatter.format();
 
-    renderer.page.draw(content);
+    //renderer.page.draw(content);
 
     var contentGenerator = new ContentGenerator({content: content});
     contentGenerator.generate();
@@ -460,7 +494,6 @@ function UserInterfaceHandler(parameters) {
     }
 
 
-
     function send(url) {
         // Remove spaces, tabs, newlines and etc. from the beginning and end of the string
         if ($.trim(sourceText).length > 0) {
@@ -508,9 +541,27 @@ function UserInterfaceHandler(parameters) {
         }
     }
 
+    function sendVisualizationRequest() {
+        $.ajax({
+            url: '/visualize',
+            type: 'GET',
+            data: {
+                from: translateFrom,
+                to: translateTo,
+                q: sourceText
+            },
+            cache: false,
+            success: function (response) {
+            },
+            error: function(error) {
+            }
+        });
+    }
+
     return {
         initiateTranslationModeFlow: sendIntoTranslationMode,
-        initiatePlayModeFlow: sendIntoPlayMode
+        initiatePlayModeFlow: sendIntoPlayMode,
+        initiateVisualization: sendVisualizationRequest
     };
 }
 
