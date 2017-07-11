@@ -12,7 +12,7 @@ app_default_language = 'et'
 
 from parallel_translation.parallel_translation_requests import get_translations
 from language.available_languages import get_available_language_culture_name_dicts, culture_names
-from translators.ut import get_ut_translation_object
+from translators.ut import UT
 from werkzeug.exceptions import BadRequestKeyError
 
 
@@ -126,7 +126,8 @@ def translate():
         print {"from": language_translate_from,
                "to": language_translate_to,
                "source_text": source_text}
-        ut_translation_object = get_ut_translation_object(source_text, language_translate_from, language_translate_to)
+        ut = UT(source_text, language_translate_to, language_translate_from)
+        ut_translation_object = ut.get_translation_object(source_text, language_translate_from, language_translate_to)
     except BadRequestKeyError as e:
         print "BadRequestKeyError occurred: ", e.message
 
