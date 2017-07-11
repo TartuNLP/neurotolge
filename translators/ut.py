@@ -47,7 +47,7 @@ def get_ut_translation_object(source_text, translate_from, translate_to):
     translation_time_begin = time.time()
     try:
         # INFO: Integration with University of Tartu translator's API
-
+        pass
 
     except Exception as e:
         ut_translation_object = {}

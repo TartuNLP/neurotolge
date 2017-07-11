@@ -7,7 +7,7 @@ import json
 import time
 
 app = Flask(__name__)
-app.secret_key = 'masintolge_tartu'
+app.secret_key = 'neurotolge_tartu'
 app_default_language = 'et'
 
 from parallel_translation.parallel_translation_requests import get_translations

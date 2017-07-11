@@ -31,7 +31,7 @@ def save_tilde_translation(source_text, translate_from='et', translate_to='en'):
     try:
         # INFO: Integration with Tilde translator's API
         # INFO: Put your integration here
-
+        pass
     except Exception as e:
         print("tilde failed!", e)
 
