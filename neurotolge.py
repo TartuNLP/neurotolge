@@ -115,9 +115,7 @@ def play():
 def translate():
     request_args = request.args
 
-    print "Translate request arguments :", request_args
-
-    ut_translation_object = {}
+    ut_translation = ""
     try:
         language_translate_from = request_args['from']
         language_translate_to = request_args['to']
@@ -127,11 +125,13 @@ def translate():
                "to": language_translate_to,
                "source_text": source_text}
         ut = UT(source_text, language_translate_to, language_translate_from)
-        ut_translation_object = ut.get_translation_object(source_text, language_translate_from, language_translate_to)
+        ut_translation = ut.get_translation()
     except BadRequestKeyError as e:
         print "BadRequestKeyError occurred: ", e.message
 
-    if ut_translation_object == {}:
+    print "UT translation", ut_translation
+
+    if ut_translation == "":
         return json.dumps({
             'error': True
         })
@@ -139,12 +139,15 @@ def translate():
     return json.dumps({
         'success': True,
         'translations': [
-            {'translator': 'ut', 'translation': ut_translation_object["tgt"]}
-        ],
+            {'translator': 'ut', 'translation': ut_translation}
+        ]
+    })
+    """
+        ,
         'alignweights': ut_translation_object["alignweights"],
         'src': ut_translation_object["src"],
         'rawTgt': ut_translation_object["rawTgt"]
-    })
+    """
 
 
 @app.route('/<language>', methods=['GET'])
