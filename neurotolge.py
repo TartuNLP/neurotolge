@@ -124,7 +124,7 @@ def translate():
         print {"from": language_translate_from,
                "to": language_translate_to,
                "source_text": source_text}
-        ut = UT(source_text, language_translate_to, language_translate_from)
+        ut = UT(source_text, language_translate_from, language_translate_to)
         ut_translation = ut.get_translation()
     except BadRequestKeyError as e:
         print "BadRequestKeyError occurred: ", e.message
